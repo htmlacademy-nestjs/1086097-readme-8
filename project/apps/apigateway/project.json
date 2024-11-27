@@ -1,0 +1,26 @@
+{
+  "name": "apigateway",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/apigateway/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "apigateway:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "apigateway:build:development"
+        },
+        "production": {
+          "buildTarget": "apigateway:build:production"
+        }
+      }
+    }
+  }
+}
