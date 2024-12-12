@@ -1,0 +1,19 @@
+#Создание лайка
+
+POST http://localhost:3000/api/likes?userId=658170cbb954e9f5b905ccf4&publicationId=d1ae7b64-287a-48af-934b-04f6f534eef2 HTTP/1.1
+Content-Type: application/json
+###
+
+#Количество лайков по ID публикации
+
+GET http://localhost:3000/api/likes/d1ae7b64-287a-48af-934b-04f6f534eef2 HTTP/1.1
+Content-Type: application/json
+
+###
+
+#Удаление лайка по ID
+
+DELETE http://localhost:3000/api/likes/d1ae7b64-287a-48af-934b-04f6f534eef2 HTTP/1.1
+Content-Type: application/json
+
+###
