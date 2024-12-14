@@ -1,23 +1,20 @@
-import { IsString,
-  MaxLength, MinLength,
-  IsBoolean,
-  IsMongoId,
-  IsNotEmpty,
-  IsOptional,
-  IsUrl,
-  IsNumber,
-  IsEnum
-} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+
+import { IsString, MaxLength, MinLength, IsMongoId } from 'class-validator';
 import { MinLengthCheck, MaxLengthCheck } from '@project/core'
-import { PublicationStatus } from '@project/core';
-import { PublicationType } from '@project/core';
 
 export class CreateCommentDto {
-  @IsString()
-  public id?: string;
+  @ApiProperty({
+    description: 'User ID',
+    example: '12345',
+  })
   @IsString()
   @IsMongoId()
   public userId!: string;
+  @ApiProperty({
+    description: 'Text of comment',
+    example: 'Бесплатный сервис позволяет мгновенно переводить слова.',
+  })
   @IsString()
   @MinLength(MinLengthCheck.CommentText)
   @MaxLength(MaxLengthCheck.CommentText)
