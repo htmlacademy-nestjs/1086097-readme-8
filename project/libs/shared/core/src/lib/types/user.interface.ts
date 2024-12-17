@@ -1,8 +1,8 @@
 export interface User {
-  id?: string;
+  id: string;
   email: string;
   name: string;
-  avatar: string;
+  avatar?: string;
   createAt: Date;
   publicationsCount: number;
   subscribers?: string[];

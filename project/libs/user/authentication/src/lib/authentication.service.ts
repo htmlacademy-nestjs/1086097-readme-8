@@ -1,4 +1,6 @@
-import { ConflictException, Injectable, UnauthorizedException, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, Inject, UnauthorizedException, NotFoundException } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
+import { dbMongoConfig } from '@project/config';
 import { PublicUserRepository } from '@project/public-user';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -8,13 +10,17 @@ import { PublicUserEntity } from '@project/public-user'
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly publicUserRepository: PublicUserRepository
+    private readonly publicUserRepository: PublicUserRepository,
+
+    @Inject(dbMongoConfig.KEY)
+    private readonly dbConfig: ConfigType<typeof dbMongoConfig>,
   ) {}
 
   public async register(dto: CreateUserDto): Promise<PublicUserEntity>  {
     const { email, name, password } = dto;
 
     const publicUser = {
+      id: '',
       email: email,
       name: name,
       avatar: '',

@@ -1,13 +1,15 @@
+import { Injectable } from '@nestjs/common';
 import { AuthUser, StorableEntity  } from '@project/core';
 import { hash, genSalt, compare } from 'bcrypt';
 import { Entity } from '@project/core';
 
 export const SALTS = 14;
 
+@Injectable()
 export class PublicUserEntity extends Entity implements StorableEntity<AuthUser> {
   public email!: string;
   public name!: string;
-  public avatar!: string;
+  public avatar?: string;
   public createAt!: Date;
   public publicationsCount!: number;
   public subscribers?: string[];

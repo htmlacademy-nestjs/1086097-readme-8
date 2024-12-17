@@ -23,12 +23,7 @@ export class PublicUserController {
 
   @Get(':email')
   public async show(@Param('email') email: string) {
-    const user = await this.userServiceRepository.findByEmail(email);
-    console.log(email);
-
-    if (!user) {
-      throw new NotFoundException(`User with email ${email} not found`);
-    }
-    return fillDto(UserRdo, user.toPOJO());
+    let user = await this.userServiceRepository.findByEmail(email)
+    return user && fillDto(UserRdo, user.toPOJO());
   }
 }
