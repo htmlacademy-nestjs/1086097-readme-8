@@ -1,6 +1,6 @@
 #Создание нового пользователя
 
-POST http://localhost:3000/api/auth/register HTTP/1.1
+POST http://localhost:3001/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
@@ -12,17 +12,22 @@ Content-Type: application/json
 ###
 
 #Получение информации о пользователе по ID
-GET http://localhost:3000/api/auth/8424a0e3-730e-482b-9ce8-3504e2d912a9 HTTP/1.1
+GET http://localhost:3001/api/auth/67618e912d0d62bbbfb3dea5 HTTP/1.1
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI4OGM1Y2NhYjM1YWM5ODRjODM1YjQiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJKdWx5IiwiaWF0IjoxNzA2NTkzNDE1LCJleHAiOjE3MDY2Nzk4MTV9.uouP17pKbM3kfnmUEyF4O3ijxv22BO1yzYC3frryWaY
 
 ###
 
 #Авторизация пользователя по email и password
-POST http://localhost:3000/api/auth/login HTTP/1.1
+POST http://localhost:3001/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
   "email":"user@yandex.com",
-  "password":"12345"
+  "password":"1234"
 }
+
+#Поиск пользователя по email
+GEt http://localhost:3001/api/users/user@yandex.com HTTP/1.1
+
+###
 

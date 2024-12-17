@@ -22,3 +22,16 @@ export const MaxLengthCheck = {
   CommentText: 300,
   Description: 300,
 } as const;
+
+export const AuthenticationResponseMessage = {
+  LoggedSuccess: 'User has been successfully logged.',
+  LoggedError: 'Password or Login is wrong.',
+  UserFound: 'User found',
+  UserNotFound: 'User not found',
+  UserExist: 'User with the email already exists',
+  UserCreated: 'The new user has been successfully created.',
+} as const;
+
+export const MIN_PORT = 0;
+export const MAX_PORT = 65535;
+export const DEFAULT_MONGO_PORT = 27017;
