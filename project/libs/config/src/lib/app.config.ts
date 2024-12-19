@@ -2,9 +2,15 @@ import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
 
 const DEFAULT_PORT = 3000;
-const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
+// const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
 
-type Environment = typeof ENVIRONMENTS[number];
+// type Environment = typeof ENVIRONMENTS[number];
+
+enum ENVIRONMENTS {
+  Development = 'development',
+  Production = 'production',
+  Stage = 'stage'
+};
 
 export interface AppConfig {
   environment: string;
@@ -12,7 +18,7 @@ export interface AppConfig {
 }
 
 const validationSchema = Joi.object({
-  environment: Joi.string().valid(...ENVIRONMENTS).required(),
+  environment: Joi.string().valid(...Object.values(ENVIRONMENTS)).required(),
   port: Joi.number().port().default(DEFAULT_PORT),
 });
 
@@ -25,7 +31,7 @@ function validateConfig(config: AppConfig): void {
 
 function getConfig(): AppConfig {
   const config: AppConfig = {
-    environment: process.env['NODE_ENV'] as Environment,
+    environment: process.env['NODE_ENV'] as ENVIRONMENTS,
     port: parseInt(process.env['PORT'] || `${DEFAULT_PORT}`, 10),
   };
 

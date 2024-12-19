@@ -19,9 +19,8 @@ export class PublicUserRepository extends BaseMongoRepository<PublicUserEntity, 
   }
 
   public async findByEmail(email: string) {
-    // @ts-ignore
     const document = await this.model.findOne({ email }).exec();
-    if (!document) {throw new NotFoundException(`User with email ${email} not found`);}
+    if (!document) {return null;};
     return this.createEntityFromDocument(document);
   }
 }
