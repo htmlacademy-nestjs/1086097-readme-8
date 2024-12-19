@@ -5,4 +5,5 @@ export { StorableEntity } from './lib/interfaces/storable-entity.interface';
 export { EntityFactory }  from './lib/interfaces/entity-factory.interface';
 export { PublicationStatus } from './lib/types/publication-status.enum';
 export { PublicationType } from './lib/types/publication-type.enum';
+export { EnvValidationMessage } from './lib/types/mongo.messages.enum';
 export * from './lib/const/const';
