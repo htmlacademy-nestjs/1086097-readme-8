@@ -1,23 +1,4 @@
-#Создание нового пользователя
-
-POST http://localhost:3000/api/auth/register HTTP/1.1
-Content-Type: application/json
-
-{
-  "email":"user@yandex.com",
-  "name":"Oleg",
-  "password":"12345"
-}
-
-###
-
-#Получение информации о пользователе по ID
-GET http://localhost:3000/api/auth/8424a0e3-730e-482b-9ce8-3504e2d912a9 HTTP/1.1
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI4OGM1Y2NhYjM1YWM5ODRjODM1YjQiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJKdWx5IiwiaWF0IjoxNzA2NTkzNDE1LCJleHAiOjE3MDY2Nzk4MTV9.uouP17pKbM3kfnmUEyF4O3ijxv22BO1yzYC3frryWaY
-
-###
-
 #Пользователь по email
-GEt http://localhost:3000/api/users/user@yandex.com HTTP/1.1
+GEt http://localhost:3001/api/users/user@yandex.com HTTP/1.1
 
 ###
