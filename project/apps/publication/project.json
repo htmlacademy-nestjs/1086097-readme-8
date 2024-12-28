@@ -21,6 +21,41 @@
           "buildTarget": "publication:build:production"
         }
       }
+    },
+    "db:validate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma validate --schema ./schema.prisma",
+        "cwd": "libs/publication/models/prisma"
+      }
+    },
+    "db:migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma migrate dev --name 'Added model for App' --schema ./prisma/schema.prisma --skip-generate",
+        "cwd": "libs/publication/models/prisma"
+      }
+    },
+    "db:reset": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma migrate reset --schema ./schema.prisma --force --skip-generate --skip-seed",
+        "cwd": "libs/publication/models/prisma"
+      }
+    },
+    "db:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx prisma generate --schema ./schema.prisma",
+        "cwd": "libs/publication/models/prisma"
+      }
+    },
+    "db:fill": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx ts-node seed.ts",
+        "cwd": "libs/publication/models/prisma"
+      }
     }
   }
 }

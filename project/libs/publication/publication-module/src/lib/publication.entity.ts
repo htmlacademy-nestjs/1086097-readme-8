@@ -2,8 +2,10 @@ import { Publication } from './publication.interface';
 import { StorableEntity, Entity } from '@project/core';
 import { PublicationStatus } from '@project/core';
 import { PublicationType } from '@project/core';
+import { Comment } from '@project/comment-module';
 
-export class PublicationEntity extends Entity implements StorableEntity<Publication> {
+export class PublicationEntity implements StorableEntity<Publication> {
+  public publicationId?: string;
   public userId!: string;
 
   public titleVideo?: string;
@@ -24,8 +26,8 @@ export class PublicationEntity extends Entity implements StorableEntity<Publicat
   public tags?: string[];
   public createAt?: Date;
   public updateAt?: Date;
-  public publicStatus!: PublicationStatus;
-  public publicType!: PublicationType;
+  public publicStatus!: keyof typeof PublicationStatus;
+  public publicType!: keyof typeof PublicationType;
 
   public isRepost!: boolean;
   public originalAuthorId?: string;
@@ -33,9 +35,9 @@ export class PublicationEntity extends Entity implements StorableEntity<Publicat
 
   public commentsCount!: number;
   public likesCount!: number;
+  public comments?: Comment[];
 
   constructor(data: Publication) {
-    super()
     this.populate(data);
   }
 
@@ -44,7 +46,7 @@ export class PublicationEntity extends Entity implements StorableEntity<Publicat
       return;
     }
 
-    this.id = data.id ?? ''
+    this.publicationId = data.publicationId ?? undefined;
     this.userId = data.userId;
 
     this.titleVideo = data.titleVideo ?? undefined;
@@ -75,11 +77,12 @@ export class PublicationEntity extends Entity implements StorableEntity<Publicat
 
     this.commentsCount = data.commentsCount || 0;
     this.likesCount = data.likesCount || 0;
+    this.comments = data.comments || [];
   }
 
   public toPOJO() {
     return {
-      id: this.id,
+      publicationId: this.publicationId,
       userId: this.userId,
       titleVideo: this.titleVideo,
       video: this.video,
@@ -101,6 +104,7 @@ export class PublicationEntity extends Entity implements StorableEntity<Publicat
       originalPublicationId: this.originalPublicationId,
       commentsCount: this.commentsCount,
       likesCount: this.likesCount,
+      comments: this.comments,
     };
   }
 }

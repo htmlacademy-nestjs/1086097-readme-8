@@ -12,6 +12,7 @@ import { IsString,
 import { MinLengthCheck, MaxLengthCheck } from '@project/core'
 import { PublicationStatus } from '@project/core';
 import { PublicationType } from '@project/core';
+import { Comment } from "@project/comment-module";
 
 export class UpdatePublicationDto {
   @ApiProperty({
@@ -20,7 +21,7 @@ export class UpdatePublicationDto {
   })
   @IsString()
   @IsOptional()
-  public id!: string;
+  public publicationId!: string;
 
   @ApiProperty({
     description: 'User ID',
@@ -144,14 +145,14 @@ export class UpdatePublicationDto {
     example: 'published',
   })
   @IsEnum(PublicationStatus)
-  public publicStatus!: PublicationStatus;
+  public publicStatus!: keyof typeof PublicationStatus;
 
   @ApiProperty({
     description: 'Publication Type',
     example: 'video',
   })
   @IsEnum(PublicationType)
-  public publicType!: PublicationType;
+  public publicType!: keyof typeof PublicationType;
 
 
   @ApiProperty({
@@ -195,4 +196,9 @@ export class UpdatePublicationDto {
   @IsNumber()
   @IsNotEmpty()
   public likesCount!: number;
+  @ApiProperty({
+    description: 'Likes Count',
+    example: '1',
+  })
+  public comments?: Comment[];
 }

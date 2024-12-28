@@ -1,36 +1,36 @@
-import { PublicationStatus } from "@project/core";
-import { PublicationType } from '@project/core';
+import { PublicationStatus, PublicationType } from "@project/core";
+import { Comment } from "@project/comment-module";
 
 export interface Publication {
-  // publicationId?: string;
-  id?: string;
+  publicationId?: string;
   userId: string;
 
-  titleVideo?: string;
-  video?: string;
+  titleVideo?: string | null;
+  video?: string | null;
 
-  titleText?: string;
-  announcement?: string;
-  text?: string;
+  titleText?: string | null;
+  announcement?: string | null;
+  text?: string | null;
 
-  quote?: string;
-  author?: string;
+  quote?: string | null;
+  author?: string | null;
 
-  photo?: string;
+  photo?: string | null;
 
-  link?: string;
-  descriptionLink?: string;
+  link?: string | null;
+  descriptionLink?: string | null;
 
   tags?: string[];
   createAt?: Date;
   updateAt?: Date;
-  publicStatus: PublicationStatus;
-  publicType: PublicationType;
+  publicStatus: keyof typeof PublicationStatus;
+  publicType: keyof typeof PublicationType;
 
   isRepost?: boolean;
-  originalAuthorId?: string;
-  originalPublicationId?: string;
+  originalAuthorId?: string | null;
+  originalPublicationId?: string | null;
 
   commentsCount: number;
   likesCount: number;
+  comments?: Comment[];
 }
