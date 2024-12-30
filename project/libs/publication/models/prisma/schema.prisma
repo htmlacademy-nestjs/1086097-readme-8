@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs https//pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions
+// Try Prisma Accelerate https//pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // previewFeatures = ["fullTextSearch"]
+  output = "../../../../node_modules/.prisma/client/"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PublicationStatus {
+  Published
+  Draft
+}
+
+enum PublicationType {
+  Video
+  Text
+  Quote
+  Photo
+  Link
+}
+
+model Publication {
+  publicationId         String    @id @default(uuid()) @map("publication_id")
+  userId                String    @map("user_id")
+  titleVideo            String?   @map("title_video")
+  video                 String?
+  titleText             String?
+  announcement          String?
+  text                  String?
+  quote                 String?
+  author                String?
+  photo                 String?
+  link                  String?
+  descriptionLink       String?   @map("description_link")
+  tags                  String[]  @default([])
+  createAt              DateTime  @default(now())
+  updateAt              DateTime  @default(now())
+  publicType            PublicationType
+  publicStatus          PublicationStatus
+  isRepost              Boolean   @map("is_repost")@default(false)
+  originalAuthorId      String?
+  originalPublicationId String?
+  commentsCount         Int       @map("comments_count")
+  likesCount            Int       @map("likes_count")
+  comments              Comment[]
+  likes                 Like[]
+
+  @@index([titleText])
+  @@map("publications")
+}
+
+model Comment {
+  id String @id @default(uuid()) @map("comment_id")
+
+  publication   Publication @relation(fields: [publicationId], references: [publicationId], onDelete: Cascade, onUpdate: Cascade)
+  publicationId String      @map("publication_id")
+
+  userId   String   @map("user_id")
+  text     String
+  createAt DateTime @default(now()) @map("create_at")
+  updateAt DateTime @default(now()) @map("update_at")
+
+  @@map("comments")
+}
+
+model Like {
+  id String @id @default(uuid()) @map("like_id")
+  userId        String      @map("user_id")
+  publication   Publication @relation(fields: [publicationId], references: [publicationId], onDelete: Cascade)
+  publicationId String      @map("publication_id")
+
+  @@map("likes")
+}

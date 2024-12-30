@@ -11,6 +11,7 @@ export class CreateCommentDto {
   @IsString()
   @IsMongoId()
   public userId!: string;
+
   @ApiProperty({
     description: 'Text of comment',
     example: 'Бесплатный сервис позволяет мгновенно переводить слова.',

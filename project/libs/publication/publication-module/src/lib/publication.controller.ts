@@ -1,5 +1,5 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Controller, Body, Post, Get, Param, Patch, Delete, NotFoundException, HttpStatus } from '@nestjs/common';
+import { Controller, Body, Post, Get, Param, Patch, Delete, Query, HttpStatus } from '@nestjs/common';
 import { PublicationRepository } from './publication.repository';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { fillDto } from '@project/helpers';
@@ -55,12 +55,25 @@ export class PublicationController {
   @Get(':id')
   public async findPublicationsById(@Param('id') id: string) {
     const publication = await this.publicationServiceRepository.findPublicationById(id);
-
-    if (! publication) {
-      throw new NotFoundException(`Publication with id ${id} not found`);
-    }
     return fillDto(PublicationRdo, publication.toPOJO());
   }
+
+
+  @ApiResponse({
+    type: PublicationRdo,
+    status: HttpStatus.OK,
+    description: 'Get Publication by Title',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Not found',
+  })
+  @Get('/search')
+  public async findPublicationByTitle(@Query() {title}: {title: string}) {
+    const publication = await this.publicationServiceRepository.findPublicationByTitle(title);
+    return fillDto(PublicationRdo, publication);
+  }
+
 
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
@@ -75,6 +88,7 @@ export class PublicationController {
     await this.publicationServiceRepository.deletePublicationById(id);
   }
 
+
   @ApiResponse({
     type: UpdatePublicationDto,
     status: HttpStatus.OK,
@@ -84,12 +98,9 @@ export class PublicationController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  @Patch()
+  @Patch('')
   public async updatePublications(@Body() dto: UpdatePublicationDto) {
     const publication = await this.publicationServiceRepository.updatePublication(dto);
-    if (! publication) {
-      throw new NotFoundException(`Publication with id ${dto.id} not found`);
-    }
     return fillDto(PublicationRdo, publication.toPOJO());
   }
 }

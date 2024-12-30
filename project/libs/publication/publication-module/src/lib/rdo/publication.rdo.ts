@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { PublicationStatus } from '@project/core';
+import { Comment } from "@project/comment-module";
 
 export class PublicationRdo {
   @ApiProperty({
@@ -8,7 +9,7 @@ export class PublicationRdo {
     example: '12345',
   })
   @Expose()
-  public id!: string;
+  public publicationId!: string;
   @ApiProperty({
     description: 'User ID',
     example: '12345',
@@ -139,4 +140,6 @@ export class PublicationRdo {
   })
   @Expose()
   public likesCount!: number;
+  @Expose()
+  public comments?: Comment[];
 }

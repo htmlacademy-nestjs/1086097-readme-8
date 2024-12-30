@@ -27,9 +27,10 @@ export class CreatePublicationDto {
     example: 'Video Title',
   })
   @IsString()
-  @IsNotEmpty()
   @MinLength(MinLengthCheck.Title)
   @MaxLength(MaxLengthCheck.Title)
+  @IsOptional()
+  @IsNotEmpty()
   public titleVideo?: string;
   @ApiProperty({
     description: 'Video Link',
@@ -37,7 +38,6 @@ export class CreatePublicationDto {
       'https://www.youtube.com/watch?v=2BcYD_F3QrA&list=RD2BcYD_F3QrA&start_radio=1',
   })
   @IsString()
-  @IsNotEmpty()
   @IsUrl()
   public video?: string;
 
@@ -54,7 +54,6 @@ export class CreatePublicationDto {
     example: 'Время подключить базу данных.',
   })
   @IsString()
-  @IsNotEmpty()
   @MinLength(MinLengthCheck.Announcement)
   @MaxLength(MaxLengthCheck.Announcement)
   public announcement?: string;
@@ -63,7 +62,6 @@ export class CreatePublicationDto {
     example: 'Пришло время подключить базу данных для первого микросервиса.',
   })
   @IsString()
-  @IsNotEmpty()
   @MinLength(MinLengthCheck.Text)
   @MaxLength(MaxLengthCheck.Text)
   public text?: string;
@@ -75,7 +73,6 @@ export class CreatePublicationDto {
       'Сервисы, предоставляющие REST API содержат документацию в формате OpenAPI',
   })
   @IsString()
-  @IsNotEmpty()
   @MinLength(MinLengthCheck.Quote)
   @MaxLength(MaxLengthCheck.Quote)
   public quote?: string;
@@ -133,13 +130,13 @@ export class CreatePublicationDto {
     example: 'published',
   })
   @IsEnum(PublicationStatus)
-  public publicStatus!: PublicationStatus;
+  public publicStatus!: keyof typeof PublicationStatus;
   @ApiProperty({
     description: 'Publication Type',
     example: 'video',
   })
   @IsEnum(PublicationType)
-  public publicType!: PublicationType;
+  public publicType!: keyof typeof PublicationType;
 
   @ApiProperty({
     description: 'Repost Public',

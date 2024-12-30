@@ -50,12 +50,9 @@ export class CommentController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  @Get('publication/:id')
+  @Get('/publication/:id')
   public async findCommentsByPublicationId(@Param('id') id: string) {
     const comments = await this.commentService.findCommentsByPublicationId(id);
-    if (! comments) {
-      throw new NotFoundException(`Comments for publication id ${id} not found`);
-    }
     return fillDto(CommentRdo, comments);
   }
 }

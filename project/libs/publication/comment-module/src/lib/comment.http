@@ -1,6 +1,6 @@
 #Создание нового комментария
 
-POST http://localhost:3000/api/comments/1d436eaa-a26b-442e-9980-66cae0def036 HTTP/1.1
+POST http://localhost:3001/api/comments/8600dbb0-100d-4d48-b4e0-056cc840cd6e HTTP/1.1
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 
 #Получение комментариев публикации
 
-GET http://localhost:3000/api/comments/publication/1d436eaa-a26b-442e-9980-66cae0def036 HTTP/1.1
+GET http://localhost:3001/api/comments/publication/8600dbb0-100d-4d48-b4e0-056cc840cd6e HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -20,7 +20,7 @@ Content-Type: application/json
 
 #Удаление комментария по ID
 
-DELETE http://localhost:3000/api/comments/1d375f85-bd75-4861-be57-2b9f4169fe98 HTTP/1.1
+DELETE http://localhost:3001/api/comments/1d375f85-bd75-4861-be57-2b9f4169fe98 HTTP/1.1
 Content-Type: application/json
 
 ###

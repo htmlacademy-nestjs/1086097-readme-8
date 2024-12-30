@@ -29,20 +29,6 @@ export class LikeController {
   }
 
   @ApiResponse({
-    type: LikeRdo,
-    status: HttpStatus.OK,
-    description: 'Likes received',
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'Not found',
-  })
-  @Get(':publicationId')
-  public async getCommentsByPublicationId(@Param('publicationId') publicationId: string) {
-    return await this.likeService.getLikesCounByPublicationId(publicationId);
-  }
-
-  @ApiResponse({
     status: HttpStatus.OK,
     description: 'Likes deleted',
   })
@@ -50,8 +36,8 @@ export class LikeController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  @Delete(':publicationId')
-  public async deleteCommentById(@Param('publicationId') publicationId: string) {
-    await this.likeService.deleteLikesByPublicationId(publicationId);
+  @Delete('/:publicationId/:userId')
+  public async delete(@Param('publicationId') publicationId: string, @Param('userId') userId: string) {
+    await this.likeService.deleteLikesByPublicationId(publicationId, userId);
   }
 }
