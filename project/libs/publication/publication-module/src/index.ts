@@ -1,5 +1,6 @@
 export { Publication } from './lib/publication.interface';
 export { PublicationRepository } from './lib/publication.repository';
+export { PublicationService } from './lib/publication.service';
 export { PublicationController } from './lib/publication.controller';
 export { PublicationModule } from './lib/publication.module';
 export { PublicationFactory } from './lib/publication.factory';

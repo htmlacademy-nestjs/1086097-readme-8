@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { NotFoundException } from '@nestjs/common';
-import { PublicUserEntity } from './public-user.entity';
-import { PublicUserFactory } from './public-user.factory';
+import { PublicUserEntity } from './user.entity';
+import { PublicUserFactory } from './user.factory';
 import { BaseMongoRepository } from '@project/data-access';
-import { PublicUserModel } from './public-user-model';
+import { PublicUserModel } from './user-model';
 
 @Injectable()
 // @ts-ignore

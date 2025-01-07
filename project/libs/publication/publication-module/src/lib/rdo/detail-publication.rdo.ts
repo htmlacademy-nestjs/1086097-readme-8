@@ -1,195 +1,152 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString,
-  MaxLength, MinLength,
-  IsBoolean,
-  IsMongoId,
-  IsNotEmpty,
-  IsOptional,
-  IsUrl,
-  IsNumber,
-  IsEnum,
-  ValidateIf,
-} from 'class-validator';
-import { MinLengthCheck, MaxLengthCheck } from '@project/core'
-import { PublicationStatus } from '@project/core';
-import { PublicationType } from '@project/core';
+import { Expose } from 'class-transformer';
+import { PublicationStatus, PublicationType } from '@project/core';
+import { Comment } from "@project/comment-module";
+import { UserDetailRdo } from '@project/core';
 
-export class CreatePublicationDto {
+export class DetailPublicationRdo {
+  @ApiProperty({
+    description: 'Publication ID',
+    example: '12345',
+  })
+  @Expose()
+  public publicationId!: string;
   @ApiProperty({
     description: 'User ID',
     example: '12345',
   })
-  @IsString()
-  @IsMongoId()
+  @Expose()
   public userId!: string;
-
+  @ApiProperty({
+    description: 'Detail User',
+    example: 'name: "Пушкин Александр", email: "pu@ya.ru", id: "12345"',
+  })
+  @Expose()
+  public user?: UserDetailRdo;
   @ApiProperty({
     description: 'Video Title',
     example: 'Video Title',
   })
-  @ValidateIf(o => o.publicType === "Video")
-  @IsString()
-  @MinLength(MinLengthCheck.Title)
-  @MaxLength(MaxLengthCheck.Title)
-  @IsOptional()
-  @IsNotEmpty()
+  @Expose()
   public titleVideo?: string;
   @ApiProperty({
     description: 'Video Link',
     example:
       'https://www.youtube.com/watch?v=2BcYD_F3QrA&list=RD2BcYD_F3QrA&start_radio=1',
   })
-  @ValidateIf(o => o.publicType === "Video")
-  @IsString()
-  @IsUrl()
+  @Expose()
   public video?: string;
-
   @ApiProperty({
     description: 'Text Title',
     example: 'Text Title',
   })
-  @ValidateIf(o => o.publicType === "Text")
-  @IsString()
-  @MinLength(MinLengthCheck.Title)
-  @MaxLength(MaxLengthCheck.Title)
+  @Expose()
   public titleText?: string;
   @ApiProperty({
     description: 'Announcement text',
     example: 'Время подключить базу данных.',
   })
-  @ValidateIf(o => o.publicType === "Text")
-  @IsString()
-  @MinLength(MinLengthCheck.Announcement)
-  @MaxLength(MaxLengthCheck.Announcement)
+  @Expose()
   public announcement?: string;
   @ApiProperty({
     description: 'Text Description',
     example: 'Пришло время подключить базу данных для первого микросервиса.',
   })
-  @ValidateIf(o => o.publicType === "Text")
-  @IsString()
-  @MinLength(MinLengthCheck.Text)
-  @MaxLength(MaxLengthCheck.Text)
+  @Expose()
   public text?: string;
-
-
   @ApiProperty({
     description: 'Quote Text',
     example:
       'Сервисы, предоставляющие REST API содержат документацию в формате OpenAPI',
   })
-  @ValidateIf(o => o.publicType === "Quote")
-  @IsString()
-  @MinLength(MinLengthCheck.Quote)
-  @MaxLength(MaxLengthCheck.Quote)
+  @Expose()
   public quote?: string;
   @ApiProperty({
     description: 'Quote Author Name',
     example:
       'Игорь Антонов',
   })
-  @ValidateIf(o => o.publicType === "Quote")
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(MinLengthCheck.Author)
-  @MaxLength(MaxLengthCheck.Author)
+  @Expose()
   public author?: string;
-
-
   @ApiProperty({
     description: 'Photo Link',
     example:
       'https://yandex.ru/images/search?text=%D0%9C%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F%20%D0%A1%D0%B2%D0%B8%D0%BD%D0%BA%D0%B0&nl=1&source=morda',
   })
-  @ValidateIf(o => o.publicType === "Photo")
-  @IsString()
-  @IsNotEmpty()
+  @Expose()
   public photo?: string;
-
-
   @ApiProperty({
     description: 'Link',
     example: 'https://htmlacademy.ru',
   })
-  @ValidateIf(o => o.publicType === "Link")
-  @IsString()
-  @IsNotEmpty()
-  @IsUrl()
+  @Expose()
   public link?: string;
   @ApiProperty({
     description: 'Link Description',
     example: 'HTMLAcademy',
   })
-  @ValidateIf(o => o.publicType === "Link")
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  @MaxLength(MaxLengthCheck.Description)
+  @Expose()
   public descriptionLink?: string;
-
-
   @ApiProperty({
     description: 'Tags',
     example: 'Друзья',
   })
-  @ValidateIf(o => o.tags != null)
-  @IsString()
-  @IsOptional()
+  @Expose()
   public tags?: string[];
-
+  @ApiProperty({
+    description: 'Create Date',
+    example: '2024-13-12',
+  })
+  @Expose()
+  public createAt!: Date;
+  @ApiProperty({
+    description: 'Update Date',
+    example: '2024-13-12',
+  })
+  @Expose()
+  public updateAt!: Date;
   @ApiProperty({
     description: 'Publication Status',
     example: 'published',
   })
-  @IsEnum(PublicationStatus)
-  public publicStatus!: keyof typeof PublicationStatus;
-
+  @Expose()
+  public publicStatus!: PublicationStatus;
   @ApiProperty({
     description: 'Publication Type',
     example: 'video',
   })
-  @IsEnum(PublicationType)
-  public publicType!: keyof typeof PublicationType;
-
+  @Expose()
+  public publicType!: PublicationType;
   @ApiProperty({
     description: 'Repost Public',
     example: 'false',
   })
-  @IsBoolean()
-  @IsNotEmpty()
+  @Expose()
   public isRepost!: boolean;
-
   @ApiProperty({
     description: 'Original Author ID',
     example: '12345',
   })
-  @ValidateIf(o => o.isRepost === true)
-  @IsNotEmpty()
-  @IsString()
+  @Expose()
   public originalAuthorId?: string;
-
   @ApiProperty({
     description: 'Original Publication ID',
     example: '1234',
   })
-  @ValidateIf(o => o.isRepost === true)
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
+  @Expose()
   public originalPublicationId?: string;
-
   @ApiProperty({
     description: 'Comments Count',
     example: '1',
   })
-  @IsNumber()
-  @IsNotEmpty()
+  @Expose()
   public commentsCount!: number;
   @ApiProperty({
     description: 'Likes Count',
     example: '1',
   })
-  @IsNumber()
-  @IsNotEmpty()
+  @Expose()
   public likesCount!: number;
+  @Expose()
+  public comments?: Comment[];
 }

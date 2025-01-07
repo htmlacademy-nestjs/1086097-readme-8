@@ -1,10 +1,10 @@
 export default {
-  displayName: 'public-user',
+  displayName: 'pipes',
   preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/libs/user/public-user',
+  coverageDirectory: '../../../coverage/libs/shared/pipes',
 };

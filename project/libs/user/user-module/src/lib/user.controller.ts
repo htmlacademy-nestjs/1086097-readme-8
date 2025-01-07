@@ -1,6 +1,6 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Controller, NotFoundException, Get, Param, HttpStatus } from '@nestjs/common';
-import { PublicUserRepository } from './public-user.repository';
+import { PublicUserRepository } from './user.repository';
 import { UserRdo } from '@project/authentication'
 import { fillDto } from '@project/helpers';
 import { AuthenticationResponseMessage } from '@project/core';

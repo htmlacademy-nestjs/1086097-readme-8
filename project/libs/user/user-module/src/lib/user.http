@@ -1,0 +1,9 @@
+#Пользователь по email
+GEt http://localhost:3001/api/users/user@yandex.com HTTP/1.1
+
+###
+
+#Пользователь по ID
+GEt http://localhost:3001/api/users/67645530e791c623065e30c1 HTTP/1.1
+
+###

@@ -16,10 +16,10 @@ services:
       - ${MONGO_PORT}:27017
 
     healthcheck:
-    test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/readme --quiet
-    interval: 10s
-    timeout: 10s
-    retries: 5
+      test: ["CMD", 'db.runCommand("ping").ok', mongosh, localhost:27017/readme, --quiet]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
     volumes:
       - mongo.userreadme:/data/db

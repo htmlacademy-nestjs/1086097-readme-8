@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
-import { PublicUserModule, PublicUserSchema, PublicUserModel } from '@project/public-user';
+import { PublicUserModule } from '@project/user-module';
 
 @Module({
   imports: [PublicUserModule],
   controllers: [AuthenticationController],
-  providers: [AuthenticationService]
+  providers: [AuthenticationService],
+  exports: [AuthenticationService],
 })
 export class AuthenticationModule {}

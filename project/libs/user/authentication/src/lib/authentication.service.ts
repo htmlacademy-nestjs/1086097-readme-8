@@ -1,11 +1,10 @@
 import { ConflictException, Injectable, Inject, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { dbMongoConfig } from '@project/config';
-import { PublicUserRepository } from '@project/public-user';
+import { PublicUserRepository, PublicUserEntity } from '@project/user-module';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AUTH_USER_EXISTS, AUTH_USER_PASSWORD_WRONG, INITIAL_VALUE, INITIAL_ARRAY } from './authentication.const';
-import { PublicUserEntity } from '@project/public-user'
 
 @Injectable()
 export class AuthenticationService {

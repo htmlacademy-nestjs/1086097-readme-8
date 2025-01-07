@@ -23,6 +23,7 @@ export interface Publication {
   tags?: string[];
   createAt?: Date;
   updateAt?: Date;
+
   publicStatus: keyof typeof PublicationStatus;
   publicType: keyof typeof PublicationType;
 

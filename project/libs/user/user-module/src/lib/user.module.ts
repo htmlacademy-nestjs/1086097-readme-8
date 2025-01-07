@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PublicUserController } from './public-user.controller';
-import { PublicUserRepository } from './public-user.repository';
-import { PublicUserFactory } from './public-user.factory';
-import { PublicUserSchema, PublicUserModel } from './public-user-model';
+import { PublicUserController } from './user.controller';
+import { PublicUserRepository } from './user.repository';
+import { PublicUserFactory } from './user.factory';
+import { PublicUserSchema, PublicUserModel } from './user-model';
 
 @Module({
   imports: [MongooseModule.forFeature([

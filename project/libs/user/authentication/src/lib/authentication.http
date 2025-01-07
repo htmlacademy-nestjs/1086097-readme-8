@@ -12,7 +12,7 @@ Content-Type: application/json
 ###
 
 #Получение информации о пользователе по ID
-GET http://localhost:3001/api/auth/67645530e791c623065e30c1 HTTP/1.1
+GET http://localhost:3001/api/auth/67645530e791c623065e3c1 HTTP/1.1
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI4OGM1Y2NhYjM1YWM5ODRjODM1YjQiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJKdWx5IiwiaWF0IjoxNzA2NTkzNDE1LCJleHAiOjE3MDY2Nzk4MTV9.uouP17pKbM3kfnmUEyF4O3ijxv22BO1yzYC3frryWaY
 
 ###
@@ -31,3 +31,6 @@ Content-Type: application/json
 GEt http://localhost:3001/api/users/user@yandex.com HTTP/1.1
 ###
 
+# Demo route for Pipe
+GET http://localhost:3001/api/auth/demo/1 HTTP/1.1.
+###
