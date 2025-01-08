@@ -1,6 +1,6 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Controller, NotFoundException, Get, Param, HttpStatus } from '@nestjs/common';
-import { PublicUserRepository } from './user.repository';
+import { UserRepository } from './user.repository';
 import { UserRdo } from '@project/authentication'
 import { fillDto } from '@project/helpers';
 import { AuthenticationResponseMessage } from '@project/core';
@@ -9,7 +9,7 @@ import { AuthenticationResponseMessage } from '@project/core';
 @Controller('users')
 export class PublicUserController {
   constructor(
-    private readonly userServiceRepository: PublicUserRepository
+    private readonly userServiceRepository: UserRepository
   ) {}
 
   @ApiResponse({

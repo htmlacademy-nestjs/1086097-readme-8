@@ -6,7 +6,7 @@ import { AuthUser } from '@project/core';
   collection: 'users',
   timestamps: true,
 })
-export class PublicUserModel extends Document implements AuthUser {
+export class UserModel extends Document implements AuthUser {
   @Prop({
     unique: true,
   })
@@ -41,9 +41,9 @@ export class PublicUserModel extends Document implements AuthUser {
   public passwordHash!: string;
 }
 
-export const PublicUserSchema = SchemaFactory.createForClass(PublicUserModel);
+export const UserSchema = SchemaFactory.createForClass(UserModel);
 
-PublicUserSchema.pre<PublicUserModel>('save', function (next) {
+UserSchema.pre<UserModel>('save', function (next) {
   if (!this.id && this._id) {
     // @ts-ignore
     this.id = this._id.toString();

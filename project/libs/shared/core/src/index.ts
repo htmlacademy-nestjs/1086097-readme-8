@@ -10,3 +10,5 @@ export { EnvValidationMessage } from './lib/types/mongo.messages.enum';
 export { SortDirection } from './lib/types/sort-direction.enum';
 export { PaginationResult } from './lib/interfaces/pagination.interface';
 export * from './lib/const/const';
+export { Token } from './lib/interfaces/token.interface';
+export { TokenPayload } from './lib/interfaces/token-payload.interface';

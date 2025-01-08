@@ -1,12 +1,15 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Controller, Body, Post, Get, Param, HttpStatus } from '@nestjs/common';
+import { Controller, Body, Post, Get, Param, HttpStatus, UseGuards } from '@nestjs/common';
+
 import { AuthenticationResponseMessage } from '@project/core';
+import { MongoIdValidationPipe } from '@project/pipes';
+import { JwtAuthGuard } from '@project/guards';
 import { AuthenticationService } from './authentication.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { fillDto } from '@project/helpers';
 import { UserRdo } from './rdo/user.rdo';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
-import { MongoIdValidationPipe } from '@project/pipes';
+import { LoginUserDto } from './dto/login-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -39,9 +42,10 @@ export class AuthenticationController {
     description: 'Password or Login is wrong',
   })
   @Post('login')
-  public async find(@Body() dto: CreateUserDto) {
+  public async find(@Body() dto: LoginUserDto) {
     const user = await this.authService.verifyUser(dto);
-    return fillDto(UserRdo, user.toPOJO());
+    const userToken = await this.authService.createUserToken(user);
+    return fillDto(LoggedUserRdo, {...user.toPOJO(), ...userToken});
   }
 
   @ApiResponse({
@@ -59,6 +63,7 @@ export class AuthenticationController {
     return fillDto(UserRdo, user.toPOJO());
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/demo/:id')
   public async demoPipe(@Param('id') id: number) {
     console.log(typeof id);

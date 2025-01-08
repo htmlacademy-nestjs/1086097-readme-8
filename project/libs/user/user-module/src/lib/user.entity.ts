@@ -6,7 +6,7 @@ import { Entity } from '@project/core';
 export const SALTS = 14;
 
 @Injectable()
-export class PublicUserEntity extends Entity implements StorableEntity<AuthUser> {
+export class UserEntity extends Entity implements StorableEntity<AuthUser> {
   public email!: string;
   public name!: string;
   public avatar?: string;
@@ -48,7 +48,7 @@ export class PublicUserEntity extends Entity implements StorableEntity<AuthUser>
     };
   }
 
-  public async setPassword(password: string): Promise<PublicUserEntity> {
+  public async setPassword(password: string): Promise<UserEntity> {
     const salt = await genSalt(SALTS);
     this.passwordHash = await hash(password, salt);
     return this;

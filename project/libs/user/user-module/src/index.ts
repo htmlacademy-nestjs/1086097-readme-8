@@ -1,6 +1,6 @@
-export { PublicUserModule } from './lib/user.module';
-export { PublicUserRepository } from './lib/user.repository';
-export { PublicUserFactory } from './lib/user.factory';
-export { PublicUserEntity } from './lib/user.entity';
-export { PublicUserModel } from './lib/user-model';
-export { PublicUserSchema } from './lib/user-model';
+export { UserModule } from './lib/user.module';
+export { UserRepository } from './lib/user.repository';
+export { UserFactory } from './lib/user.factory';
+export { UserEntity } from './lib/user.entity';
+export { UserModel } from './lib/user-model';
+export { UserSchema } from './lib/user-model';
