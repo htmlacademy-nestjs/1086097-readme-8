@@ -28,9 +28,6 @@ export abstract class BaseMongoRepository<T extends Entity & StorableEntity<Retu
   }
 
   public async save(entity: T): Promise<void> {
-    // const newEntity = new this.model(entity.toPOJO());
-    // entity.id = newEntity._id.toString();
-    // await newEntity.save();
     await new this.model(entity.toPOJO()).save();
   }
 

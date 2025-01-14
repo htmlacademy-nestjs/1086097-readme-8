@@ -12,3 +12,5 @@ export { PaginationResult } from './lib/interfaces/pagination.interface';
 export * from './lib/const/const';
 export { Token } from './lib/interfaces/token.interface';
 export { TokenPayload } from './lib/interfaces/token-payload.interface';
+export { FileStore } from './lib/interfaces/file-store.interface';
+export { StoredFile } from './lib/interfaces/stored-file.interface';

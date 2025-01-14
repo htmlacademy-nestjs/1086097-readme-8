@@ -39,7 +39,8 @@
         "apps/user-e2e/**/*",
         "apps/notify-e2e/**/*",
         "apps/publication-e2e/**/*",
-        "apps/apigateway-e2e/**/*"
+        "apps/apigateway-e2e/**/*",
+        "apps/filestore-e2e/**/*"
       ]
     }
   ]
