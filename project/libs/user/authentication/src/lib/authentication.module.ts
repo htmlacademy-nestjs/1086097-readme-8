@@ -1,12 +1,20 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
-import { PublicUserModule, PublicUserSchema, PublicUserModel } from '@project/public-user';
+import { UserModule } from '@project/user-module';
+import { JwtAccessStrategy } from './jwt-access.strategy';
+import { getJwtOptions } from '@project/config';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [PublicUserModule],
+  imports: [UserModule,
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: getJwtOptions,
+    })],
   controllers: [AuthenticationController],
-  providers: [AuthenticationService]
+  providers: [AuthenticationService, JwtAccessStrategy],
+  exports: [AuthenticationService],
 })
 export class AuthenticationModule {}

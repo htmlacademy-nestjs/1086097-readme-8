@@ -15,4 +15,18 @@ export class LoggedUserRdo {
   })
   @Expose()
   public email!: string;
+
+  @ApiProperty({
+    description: 'User name',
+    example: 'Иванов А.',
+  })
+  @Expose()
+  public name!: string;
+
+  @ApiProperty({
+    description: 'Token',
+    example: 'sdfsdfsdf.sdfsdf',
+  })
+  @Expose()
+  public accessToken!: string;
 }

@@ -7,7 +7,8 @@ import { IsString,
   IsOptional,
   IsUrl,
   IsNumber,
-  IsEnum
+  IsEnum,
+  ValidateIf,
 } from 'class-validator';
 import { MinLengthCheck, MaxLengthCheck } from '@project/core'
 import { PublicationStatus } from '@project/core';
@@ -26,6 +27,7 @@ export class CreatePublicationDto {
     description: 'Video Title',
     example: 'Video Title',
   })
+  @ValidateIf(o => o.publicType === "Video")
   @IsString()
   @MinLength(MinLengthCheck.Title)
   @MaxLength(MaxLengthCheck.Title)
@@ -37,6 +39,7 @@ export class CreatePublicationDto {
     example:
       'https://www.youtube.com/watch?v=2BcYD_F3QrA&list=RD2BcYD_F3QrA&start_radio=1',
   })
+  @ValidateIf(o => o.publicType === "Video")
   @IsString()
   @IsUrl()
   public video?: string;
@@ -45,6 +48,7 @@ export class CreatePublicationDto {
     description: 'Text Title',
     example: 'Text Title',
   })
+  @ValidateIf(o => o.publicType === "Text")
   @IsString()
   @MinLength(MinLengthCheck.Title)
   @MaxLength(MaxLengthCheck.Title)
@@ -53,6 +57,7 @@ export class CreatePublicationDto {
     description: 'Announcement text',
     example: 'Время подключить базу данных.',
   })
+  @ValidateIf(o => o.publicType === "Text")
   @IsString()
   @MinLength(MinLengthCheck.Announcement)
   @MaxLength(MaxLengthCheck.Announcement)
@@ -61,6 +66,7 @@ export class CreatePublicationDto {
     description: 'Text Description',
     example: 'Пришло время подключить базу данных для первого микросервиса.',
   })
+  @ValidateIf(o => o.publicType === "Text")
   @IsString()
   @MinLength(MinLengthCheck.Text)
   @MaxLength(MaxLengthCheck.Text)
@@ -72,6 +78,7 @@ export class CreatePublicationDto {
     example:
       'Сервисы, предоставляющие REST API содержат документацию в формате OpenAPI',
   })
+  @ValidateIf(o => o.publicType === "Quote")
   @IsString()
   @MinLength(MinLengthCheck.Quote)
   @MaxLength(MaxLengthCheck.Quote)
@@ -81,6 +88,7 @@ export class CreatePublicationDto {
     example:
       'Игорь Антонов',
   })
+  @ValidateIf(o => o.publicType === "Quote")
   @IsString()
   @IsNotEmpty()
   @MinLength(MinLengthCheck.Author)
@@ -93,6 +101,7 @@ export class CreatePublicationDto {
     example:
       'https://yandex.ru/images/search?text=%D0%9C%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F%20%D0%A1%D0%B2%D0%B8%D0%BD%D0%BA%D0%B0&nl=1&source=morda',
   })
+  @ValidateIf(o => o.publicType === "Photo")
   @IsString()
   @IsNotEmpty()
   public photo?: string;
@@ -102,6 +111,7 @@ export class CreatePublicationDto {
     description: 'Link',
     example: 'https://htmlacademy.ru',
   })
+  @ValidateIf(o => o.publicType === "Link")
   @IsString()
   @IsNotEmpty()
   @IsUrl()
@@ -110,6 +120,7 @@ export class CreatePublicationDto {
     description: 'Link Description',
     example: 'HTMLAcademy',
   })
+  @ValidateIf(o => o.publicType === "Link")
   @IsString()
   @IsNotEmpty()
   @IsOptional()
@@ -121,6 +132,7 @@ export class CreatePublicationDto {
     description: 'Tags',
     example: 'Друзья',
   })
+  @ValidateIf(o => o.tags != null)
   @IsString()
   @IsOptional()
   public tags?: string[];
@@ -131,6 +143,7 @@ export class CreatePublicationDto {
   })
   @IsEnum(PublicationStatus)
   public publicStatus!: keyof typeof PublicationStatus;
+
   @ApiProperty({
     description: 'Publication Type',
     example: 'video',
@@ -150,15 +163,16 @@ export class CreatePublicationDto {
     description: 'Original Author ID',
     example: '12345',
   })
+  @ValidateIf(o => o.isRepost === true)
   @IsNotEmpty()
   @IsString()
-  @IsOptional()
   public originalAuthorId?: string;
 
   @ApiProperty({
     description: 'Original Publication ID',
     example: '1234',
   })
+  @ValidateIf(o => o.isRepost === true)
   @IsNotEmpty()
   @IsString()
   @IsOptional()

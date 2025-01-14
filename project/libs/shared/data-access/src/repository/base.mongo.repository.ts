@@ -4,7 +4,7 @@ import { EntityFactory } from '@project/core';
 import { Entity, StorableEntity } from '@project/core';
 import { Repository } from './repository.interface';
 
-export abstract class BaseMongoRepository<T extends Entity & StorableEntity<ReturnType<T['toPOJO']>>,DocumentType extends Document>
+export abstract class BaseMongoRepository<T extends Entity & StorableEntity<ReturnType<T['toPOJO']>>, DocumentType extends Document>
   implements Repository<T> {
 
   constructor(
@@ -13,10 +13,7 @@ export abstract class BaseMongoRepository<T extends Entity & StorableEntity<Retu
   ) {}
 
   protected createEntityFromDocument(document: Document): T | null {
-    if (!document) {
-      return null;
-    }
-
+    if (!document) { return null;}
     const plainObject = document.toObject() as ReturnType<T['toPOJO']>;
     return this.entityFactory.create(plainObject);
   }
@@ -31,11 +28,7 @@ export abstract class BaseMongoRepository<T extends Entity & StorableEntity<Retu
   }
 
   public async save(entity: T): Promise<void> {
-    const newEntity = new this.model(entity.toPOJO());
-    console.log(entity);
-    console.log(newEntity);
-    entity.id = newEntity._id.toString();
-    await newEntity.save();
+    await new this.model(entity.toPOJO()).save();
   }
 
   public async update(entity: T): Promise<void> {
@@ -43,8 +36,7 @@ export abstract class BaseMongoRepository<T extends Entity & StorableEntity<Retu
       entity.id,
       entity.toPOJO(),
       { new: true, runValidators: true }
-    )
-      .exec();
+    ).exec();
 
     if (!updatedDocument) {
       throw new NotFoundException(`Entity with id ${entity.id} not found`);

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { PublicationStatus } from '@project/core';
+import { PublicationType } from '@project/core';
 import { Comment } from "@project/comment-module";
 
 export class PublicationRdo {
@@ -81,12 +81,6 @@ export class PublicationRdo {
   @Expose()
   public descriptionLink?: string;
   @ApiProperty({
-    description: 'Tags',
-    example: 'Друзья',
-  })
-  @Expose()
-  public tags?: string[];
-  @ApiProperty({
     description: 'Create Date',
     example: '2024-13-12',
   })
@@ -96,50 +90,10 @@ export class PublicationRdo {
     description: 'Update Date',
     example: '2024-13-12',
   })
-  @Expose()
-  public updateAt!: Date;
-  @ApiProperty({
-    description: 'Publication Status',
-    example: 'published',
-  })
-  @Expose()
-  public publicStatus!: PublicationStatus;
   @ApiProperty({
     description: 'Publication Type',
     example: 'video',
   })
   @Expose()
-  public publicType!: PublicationStatus;
-  @ApiProperty({
-    description: 'Repost Public',
-    example: 'false',
-  })
-  @Expose()
-  public isRepost!: boolean;
-  @ApiProperty({
-    description: 'Original Author ID',
-    example: '12345',
-  })
-  @Expose()
-  public originalAuthorId?: string;
-  @ApiProperty({
-    description: 'Original Publication ID',
-    example: '1234',
-  })
-  @Expose()
-  public originalPublicationId?: string;
-  @ApiProperty({
-    description: 'Comments Count',
-    example: '1',
-  })
-  @Expose()
-  public commentsCount!: number;
-  @ApiProperty({
-    description: 'Likes Count',
-    example: '1',
-  })
-  @Expose()
-  public likesCount!: number;
-  @Expose()
-  public comments?: Comment[];
+  public publicType!: PublicationType;
 }

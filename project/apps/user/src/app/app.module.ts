@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthenticationModule } from '@project/authentication';
-import { PublicUserModule } from '@project/public-user';
-// import { PublicationModule } from '@project/publication-module';
+import { UserModule } from '@project/user-module';
 import { ConfigModule, getMongooseOptions } from '@project/config';
 
 @Module({
-  imports: [AuthenticationModule, PublicUserModule, ConfigModule,
+  imports: [AuthenticationModule, UserModule, ConfigModule,
     MongooseModule.forRootAsync(getMongooseOptions())
   ],
   controllers: [],

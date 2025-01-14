@@ -1,4 +1,0 @@
-#Пользователь по email
-GEt http://localhost:3001/api/users/user@yandex.com HTTP/1.1
-
-###

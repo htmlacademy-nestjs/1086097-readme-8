@@ -1,9 +1,16 @@
 export { Entity } from './lib/base/entity';
 export { User } from './lib/types/user.interface';
+export { UserDetailRdo } from './lib/types/user-detail-rdo-type';
 export { AuthUser } from './lib/types/auth-user.interface';
 export { StorableEntity } from './lib/interfaces/storable-entity.interface';
 export { EntityFactory }  from './lib/interfaces/entity-factory.interface';
 export { PublicationStatus } from './lib/types/publication-status.enum';
 export { PublicationType } from './lib/types/publication-type.enum';
 export { EnvValidationMessage } from './lib/types/mongo.messages.enum';
+export { SortDirection } from './lib/types/sort-direction.enum';
+export { PaginationResult } from './lib/interfaces/pagination.interface';
 export * from './lib/const/const';
+export { Token } from './lib/interfaces/token.interface';
+export { TokenPayload } from './lib/interfaces/token-payload.interface';
+export { FileStore } from './lib/interfaces/file-store.interface';
+export { StoredFile } from './lib/interfaces/stored-file.interface';

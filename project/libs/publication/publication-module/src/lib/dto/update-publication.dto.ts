@@ -7,7 +7,8 @@ import { IsString,
   IsOptional,
   IsUrl,
   IsNumber,
-  IsEnum
+  IsEnum,
+  ValidateIf
 } from 'class-validator';
 import { MinLengthCheck, MaxLengthCheck } from '@project/core'
 import { PublicationStatus } from '@project/core';
@@ -19,6 +20,7 @@ export class UpdatePublicationDto {
     description: 'Publication ID',
     example: '12345',
   })
+  @ValidateIf(o => o.publicationId != null)
   @IsString()
   @IsOptional()
   public publicationId!: string;
@@ -27,6 +29,7 @@ export class UpdatePublicationDto {
     description: 'User ID',
     example: '12345',
   })
+  @ValidateIf(o => o.userId != null)
   @IsString()
   @IsMongoId()
   @IsOptional()
@@ -37,6 +40,7 @@ export class UpdatePublicationDto {
     description: 'Video Title',
     example: 'Video Title',
   })
+  @ValidateIf(o => o.titleVideo != null)
   @IsString()
   @IsNotEmpty()
   @MinLength(MinLengthCheck.Title)
@@ -47,6 +51,7 @@ export class UpdatePublicationDto {
     example:
       'https://www.youtube.com/watch?v=2BcYD_F3QrA&list=RD2BcYD_F3QrA&start_radio=1',
   })
+  @ValidateIf(o => o.video != null)
   @IsString()
   @IsNotEmpty()
   @IsUrl()
@@ -57,6 +62,7 @@ export class UpdatePublicationDto {
     description: 'Text Title',
     example: 'Text Title',
   })
+  @ValidateIf(o => o.titleText != null)
   @IsString()
   @MinLength(MinLengthCheck.Title)
   @MaxLength(MaxLengthCheck.Title)
@@ -65,6 +71,7 @@ export class UpdatePublicationDto {
     description: 'Announcement text',
     example: 'Время подключить базу данных.',
   })
+  @ValidateIf(o => o.announcement != null)
   @IsString()
   @IsNotEmpty()
   @MinLength(MinLengthCheck.Announcement)
@@ -74,6 +81,7 @@ export class UpdatePublicationDto {
     description: 'Text Description',
     example: 'Пришло время подключить базу данных для первого микросервиса.',
   })
+  @ValidateIf(o => o.text != null)
   @IsString()
   @IsNotEmpty()
   @MinLength(MinLengthCheck.Text)
@@ -83,9 +91,9 @@ export class UpdatePublicationDto {
 
   @ApiProperty({
     description: 'Quote Text',
-    example:
-      'Сервисы, предоставляющие REST API содержат документацию в формате OpenAPI',
+    example: 'Сервисы, предоставляющие REST API содержат документацию в формате OpenAPI',
   })
+  @ValidateIf(o => o.quote != null)
   @IsString()
   @IsNotEmpty()
   @MinLength(MinLengthCheck.Quote)
@@ -96,6 +104,7 @@ export class UpdatePublicationDto {
     example:
       'Игорь Антонов',
   })
+  @ValidateIf(o => o.author != null)
   @IsString()
   @IsNotEmpty()
   @MinLength(MinLengthCheck.Author)
@@ -108,6 +117,7 @@ export class UpdatePublicationDto {
     example:
       'https://yandex.ru/images/search?text=%D0%9C%D0%BE%D1%80%D1%81%D0%BA%D0%B0%D1%8F%20%D0%A1%D0%B2%D0%B8%D0%BD%D0%BA%D0%B0&nl=1&source=morda',
   })
+  @ValidateIf(o => o.photo != null)
   @IsString()
   @IsNotEmpty()
   public photo?: string;
@@ -117,6 +127,7 @@ export class UpdatePublicationDto {
     description: 'Link',
     example: 'https://htmlacademy.ru',
   })
+  @ValidateIf(o => o.link != null)
   @IsString()
   @IsNotEmpty()
   @IsUrl()
@@ -125,6 +136,7 @@ export class UpdatePublicationDto {
     description: 'Link Description',
     example: 'HTMLAcademy',
   })
+  @ValidateIf(o => o.descriptionLink != null)
   @IsString()
   @IsNotEmpty()
   @IsOptional()
@@ -136,6 +148,7 @@ export class UpdatePublicationDto {
     description: 'Tags',
     example: 'Друзья',
   })
+  @ValidateIf(o => o.tags != null)
   @IsString()
   @IsOptional()
   public tags?: string[];
@@ -159,14 +172,16 @@ export class UpdatePublicationDto {
     description: 'Repost Public',
     example: 'false',
   })
+  @ValidateIf(o => o.isRepost != null)
   @IsBoolean()
   @IsNotEmpty()
-  public isRepost!: boolean;
+  public isRepost?: boolean;
 
   @ApiProperty({
     description: 'Original Author ID',
     example: '12345',
   })
+  @ValidateIf(o => o.originalAuthorId != null)
   @IsBoolean()
   @IsNotEmpty()
   @IsOptional()
@@ -176,6 +191,7 @@ export class UpdatePublicationDto {
     description: 'Original Publication ID',
     example: '1234',
   })
+  @ValidateIf(o => o.originalPublicationId != null)
   @IsBoolean()
   @IsNotEmpty()
   @IsOptional()

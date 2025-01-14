@@ -28,3 +28,9 @@ export function fillDto<T, V>(
 export function getMongoConnectionString({username, password, host, port, databaseName, authDatabase}): string {
   return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
 }
+
+export const getFormatedTags = (tags: string[]) => {
+  const formatedTags = tags.map((tag) => tag.toLowerCase());
+  const uniqueTags = new Set(formatedTags);
+  return [...uniqueTags];
+}

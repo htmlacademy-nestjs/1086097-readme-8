@@ -8,6 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "esModuleInterop": true,
     "target": "es2015",
     "module": "esnext",
     "lib": ["es2020", "dom"],
@@ -22,13 +23,16 @@
       "@project/config": ["libs/config/src/index.ts"],
       "@project/core": ["libs/shared/core/src/index.ts"],
       "@project/data-access": ["libs/shared/data-access/src/index.ts"],
+      "@project/file-store": ["libs/file-store/src/index.ts"],
+      "@project/guards": ["libs/shared/guards/src/index.ts"],
       "@project/helpers": ["libs/shared/helpers/src/index.ts"],
       "@project/like-module": ["libs/publication/like-module/src/index.ts"],
       "@project/models": ["libs/publication/models/src/index.ts"],
-      "@project/public-user": ["libs/user/public-user/src/index.ts"],
+      "@project/pipes": ["libs/shared/pipes/src/index.ts"],
       "@project/publication-module": [
         "libs/publication/publication-module/src/index.ts"
-      ]
+      ],
+      "@project/user-module": ["libs/user/user-module/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
