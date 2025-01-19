@@ -4,8 +4,8 @@ POST http://localhost:3001/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"userT@yandex.com",
-  "name":"Oleg",
+  "email":"olegD@yandex.com",
+  "name":"Oleg D",
   "password":"123457"
 }
 
@@ -22,7 +22,7 @@ POST http://localhost:3001/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"userT@yandex.com",
+  "email":"userZ@yandex.com",
   "password":"123457"
 }
 ###

@@ -1,18 +1,23 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationController } from './authentication.controller';
-import { AuthenticationService } from './authentication.service';
-import { UserModule } from '@project/user-module';
-import { JwtAccessStrategy } from './jwt-access.strategy';
-import { getJwtOptions } from '@project/config';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
+import { JwtAccessStrategy } from './jwt-access.strategy';
+import { UserModule } from '@project/user-module';
+import { getJwtOptions } from '@project/config';
+import { AuthenticationController } from './authentication.controller';
+import { AuthenticationService } from './authentication.service';
+import { UserNotifyModule } from '@project/user-notify';
+
 @Module({
-  imports: [UserModule,
+  imports: [
+    UserModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: getJwtOptions,
-    })],
+    }),
+    UserNotifyModule
+  ],
   controllers: [AuthenticationController],
   providers: [AuthenticationService, JwtAccessStrategy],
   exports: [AuthenticationService],

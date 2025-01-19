@@ -1,22 +1,20 @@
-import { ConflictException, Injectable, Inject, UnauthorizedException, NotFoundException, Logger, HttpStatus, HttpException } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
+import { ConflictException, Injectable, UnauthorizedException, NotFoundException, Logger, HttpStatus, HttpException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { dbMongoConfig } from '@project/config';
 import { UserRepository, UserEntity } from '@project/user-module';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AUTH_USER_EXISTS, AUTH_USER_PASSWORD_WRONG, AUTH_USER_NOT_FOUND, INITIAL_VALUE, INITIAL_ARRAY } from './authentication.const';
 import { Token, TokenPayload, User } from '@project/core';
+import { UserNotifyService } from '@project/user-notify';
 
 @Injectable()
 export class AuthenticationService {
   private readonly logger = new Logger(AuthenticationService.name);
   constructor(
     private readonly userRepository: UserRepository,
-    // @Inject(dbMongoConfig.KEY)
-    // private readonly dbConfig: ConfigType<typeof dbMongoConfig>,
     private readonly jwtService: JwtService,
+    private readonly notifyService: UserNotifyService
   ) {}
 
   public async register(dto: CreateUserDto): Promise<UserEntity>  {
@@ -38,7 +36,8 @@ export class AuthenticationService {
       throw new ConflictException(AUTH_USER_EXISTS);
     }
     const userEntity = await new UserEntity(publicUser).setPassword(password);
-    this.userRepository.save(userEntity);
+    await this.userRepository.save(userEntity);
+    await this.notifyService.registerSubscriber({email, name});
     return userEntity;
   }
 

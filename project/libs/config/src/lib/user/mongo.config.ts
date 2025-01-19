@@ -1,6 +1,7 @@
 import { registerAs, ConfigType } from '@nestjs/config';
-import { MongoConfiguration } from './mongodb/mongo.env';
 import { plainToClass } from 'class-transformer';
+import { MongoConfiguration } from '../mongodb/mongo.configuration';
+
 import * as Joi from 'joi';
 
 const DEFAULT_MONGO_PORT = 27017;

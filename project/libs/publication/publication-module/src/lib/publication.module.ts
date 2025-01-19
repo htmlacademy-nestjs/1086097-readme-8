@@ -4,12 +4,12 @@ import { PublicationService } from './publication.service';
 import { PublicationController } from './publication.controller';
 import { PublicationFactory } from './publication.factory';
 import { PrismaClientModule } from '@project/models';
-// import { AuthenticationModule } from '@project/authentication';
+import { ValidateAuthorPipe } from '@project/pipes';
 
 @Module({
   imports: [PrismaClientModule],
   controllers: [PublicationController],
-  providers: [PublicationRepository, PublicationService, PublicationFactory],
-  exports: [PublicationRepository, PublicationService, PublicationFactory],
+  providers: [PublicationRepository, PublicationService, PublicationFactory, ValidateAuthorPipe],
+  exports: [PublicationService],
 })
 export class PublicationModule {}

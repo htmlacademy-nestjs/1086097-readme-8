@@ -15,7 +15,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 @Controller('auth')
 export class AuthenticationController {
   constructor(
-    private readonly authService: AuthenticationService
+    private readonly authService: AuthenticationService,
   ) {}
 
   @ApiResponse({

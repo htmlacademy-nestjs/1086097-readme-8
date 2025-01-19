@@ -23,6 +23,9 @@
       "@project/config": ["libs/config/src/index.ts"],
       "@project/core": ["libs/shared/core/src/index.ts"],
       "@project/data-access": ["libs/shared/data-access/src/index.ts"],
+      "@project/email-subscriber": [
+        "libs/notify/email-subscriber/src/index.ts"
+      ],
       "@project/file-store": ["libs/file-store/src/index.ts"],
       "@project/guards": ["libs/shared/guards/src/index.ts"],
       "@project/helpers": ["libs/shared/helpers/src/index.ts"],
@@ -32,7 +35,8 @@
       "@project/publication-module": [
         "libs/publication/publication-module/src/index.ts"
       ],
-      "@project/user-module": ["libs/user/user-module/src/index.ts"]
+      "@project/user-module": ["libs/user/user-module/src/index.ts"],
+      "@project/user-notify": ["libs/user/user-notify/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

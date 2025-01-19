@@ -1,6 +1,5 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Controller, Body, Post, Get, Param, Patch, Delete, Query, HttpStatus } from '@nestjs/common';
-import { PublicationRepository } from './publication.repository';
+import { Controller, Body, Post, Get, Param, Patch, Delete, Query, HttpStatus, UsePipes } from '@nestjs/common';
 import { PublicationService } from './publication.service';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { fillDto } from '@project/helpers';
@@ -8,6 +7,7 @@ import { PublicationRdo } from './rdo/publication.rdo';
 import { DetailPublicationRdo } from './rdo/detail-publication.rdo';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationQuery } from './publicationQuery';
+import { ValidateAuthorPipe } from '@project/pipes';
 
 @ApiTags('Publication')
 @Controller('publications')
@@ -41,6 +41,7 @@ export class PublicationController {
     description: 'Not found',
   })
   @Delete(':id')
+  // @UsePipes(ValidateAuthorPipe)
   public async deletePublicationsById(@Param('id') id: string) {
     await this.publicationService.deletePublication(id);
   }
@@ -56,6 +57,7 @@ export class PublicationController {
     description: 'Not found',
   })
   @Get(':id')
+  @UsePipes(ValidateAuthorPipe)
   public async findPublicationById(@Param('id') id: string) {
     const publication = await this.publicationService.findPublicationById(id);
     return fillDto(PublicationRdo, publication.toPOJO());

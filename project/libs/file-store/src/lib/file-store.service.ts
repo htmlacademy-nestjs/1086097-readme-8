@@ -38,15 +38,15 @@ export class FileStoreService {
     return join(this.getUploadDirectoryPath(), this.getSubUploadDirectoryPath(), filename);
   }
 
-  public async writeFile(file: Express.Multer.File): Promise<StoredFile> {
+  public async writeFile(file: Express.Multer.File, type: string): Promise<StoredFile> {
     try {
       const uploadDirectoryPath = this.getUploadDirectoryPath();
       const subDirectory = this.getSubUploadDirectoryPath();
       const filename = randomUUID();
       const fileExtension = extension(file.mimetype).toString();
-      const path = this.getDestinationFilePath(`${filename}.${fileExtension}`);
+      const path = this.getDestinationFilePath(`${type.toString()}/${filename}.${fileExtension}`);
 
-      await ensureDir(join(uploadDirectoryPath, subDirectory));
+      await ensureDir(join(uploadDirectoryPath, subDirectory, type.toString()));
       await writeFile(path, file.buffer);
 
       return {
@@ -61,8 +61,8 @@ export class FileStoreService {
     }
   }
 
-  public async saveFile(file: Express.Multer.File): Promise<FileStoreEntity> {
-    const storedFile = await this.writeFile(file);
+  public async saveFile(file: Express.Multer.File, type: string): Promise<FileStoreEntity> {
+    const storedFile = await this.writeFile(file, type);
     const fileEntity = new FileStoreFactory().create({
       hashName: storedFile.filename,
       mimetype: file.mimetype,
