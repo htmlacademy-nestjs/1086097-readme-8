@@ -7,3 +7,5 @@ export { CommentService } from './lib/comment.service';
 export { CommentRepository } from './lib/comment.repository';
 export { CommentController } from './lib/comment.controller';
 export { CommentModule } from './lib/comment.module';
+export { CommentQuery } from './lib/commentQuery';
+export { CommentWithPaginationRdo } from './lib/rdo/comments-with-pagination.rdo';

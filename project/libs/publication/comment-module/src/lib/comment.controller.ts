@@ -1,11 +1,12 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Controller, Body, Post, Get, Param, Delete, NotFoundException, HttpStatus } from '@nestjs/common';
+import { Controller, Body, Post, Get, Param, Query, Delete, HttpStatus } from '@nestjs/common';
 
 import { fillDto } from '@project/helpers';
 import { CommentRdo } from './rdo/comment.rdo';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
-// import { UpdatePublicationDto } from './dto/update-publication.dto';
+import { CommentWithPaginationRdo } from './rdo/comments-with-pagination.rdo';
+import { CommentQuery } from './commentQuery';
 
 @ApiTags('Comment')
 @Controller('comments')
@@ -43,6 +44,7 @@ export class CommentController {
   }
 
   @ApiResponse({
+    type: CommentWithPaginationRdo,
     status: HttpStatus.OK,
     description: 'Comments received',
   })
@@ -51,8 +53,13 @@ export class CommentController {
     description: 'Not found',
   })
   @Get('/publication/:id')
-  public async findCommentsByPublicationId(@Param('id') id: string) {
-    const comments = await this.commentService.findCommentsByPublicationId(id);
-    return fillDto(CommentRdo, comments);
+  public async findCommentsByPublicationId(@Param('id') id: string, @Query() query: CommentQuery) {
+    const commentsWithPagination = await this.commentService.findCommentsByPublicationId(id, query);
+    const result = {
+      ...commentsWithPagination,
+      entities: commentsWithPagination.entities.map((entity) => entity.toPOJO()),
+    };
+
+    return fillDto(CommentWithPaginationRdo, result);
   }
 }

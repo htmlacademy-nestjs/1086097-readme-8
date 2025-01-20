@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CommentEntity } from './comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { CommentFactory } from './comment.factory';
+import { CommentQuery } from './commentQuery';
 import { CommentRepository } from './comment.repository';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class CommentService {
     return await this.commentRepository.deleteCommentById(id);
   }
 
-  public async findCommentsByPublicationId(publicationId: string) {
-    return await this.commentRepository.findCommentsByPublicationId(publicationId);
+  public async findCommentsByPublicationId(publicationId: string, query: CommentQuery) {
+    return await this.commentRepository.findCommentsByPublicationId(publicationId, query);
   }
 }

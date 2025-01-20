@@ -1,16 +1,15 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { PrismaClientService } from '@project/models';
+
 import { PublicationEntity } from './publication.entity';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
-import { PublicationRdo } from './rdo/publication.rdo';
 import { PublicationFactory } from './publication.factory';
-import { PrismaClientService } from '@project/models';
-import { Prisma } from '@prisma/client';
 import { PublicationQuery } from './publicationQuery';
 import { PaginationResult } from '@project/core';
 import { getFormatedTags } from '@project/helpers';
 import { SortDirection, PublicationStatus } from '@project/core';
-import { fillDto } from '@project/helpers';
 
 const DEFAULT_SORTING_TYPE = 'createAt';
 const DEFAULT_SORTING_DIRECTION = SortDirection.Desc;
@@ -112,6 +111,8 @@ export class PublicationRepository extends PublicationFactory {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.PublicationWhereInput = {};
+    // или сортировка по одному из ключей
+    // const orderBy: Prisma.PublicationOrderByWithRelationInput = {};
     const orderBy: Prisma.PublicationOrderByWithRelationInput[] = [];
     const sortingType = query?.sortingType ? query.sortingType : DEFAULT_SORTING_TYPE;
     const sortDirection = query?.sortingDirection ? query.sortingDirection : DEFAULT_SORTING_DIRECTION;
