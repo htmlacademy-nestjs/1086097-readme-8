@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Transform  } from 'class-transformer';
 
 export class UserRdo {
   @ApiProperty({
@@ -49,4 +49,11 @@ export class UserRdo {
   })
   @Expose()
   public subscribers: string[] = null;
+
+  @ApiProperty({
+    description: 'User subscriptions',
+    example: ['12344', '12345'],
+  })
+  @Expose()
+  public subscriptions: string[] = null;
 }

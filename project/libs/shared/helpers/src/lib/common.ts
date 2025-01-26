@@ -4,8 +4,11 @@ import { MongooseModuleAsyncOptions } from '@nestjs/mongoose';
 import { MailerAsyncOptions } from '@nestjs-modules/mailer/dist/interfaces/mailer-async-options.interface';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { resolve } from 'node:path';
+import { User, TokenPayload } from '@project/core';
 
 type PlainObject = Record<string, unknown>;
+type DateTimeUnit = 's' | 'h' | 'd' | 'm' | 'y';
+type TimeAndUnit = { value: number; unit: DateTimeUnit };
 
 export function fillDto<T, V>(
   DtoClass: new () => T,
@@ -119,4 +122,32 @@ export function getMailerAsyncOptions(optionSpace: string): MailerAsyncOptions {
     },
     inject: [ConfigService],
   }
+}
+
+export function parseTime(time: string): TimeAndUnit {
+  const regex = /^(\d+)([shdmy])/;
+  const match = regex.exec(time);
+
+  if (!match) {
+    throw new Error(`[parseTime] Bad time string: ${time}`);
+  }
+
+  const [, valueRaw, unitRaw] = match;
+  const value = parseInt(valueRaw, 10);
+  const unit = unitRaw as DateTimeUnit;
+
+  if (isNaN(value)) {
+    throw new Error(`[parseTime] Can't parse value count. Result is NaN.`);
+  }
+
+  return { value, unit }
+}
+
+export function createJWTPayload(user: User): TokenPayload {
+  return {
+    sub: user.id,
+    email: user.email,
+    name: user.name,
+    createAt: user.createAt,
+  };
 }

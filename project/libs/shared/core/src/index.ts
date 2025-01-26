@@ -17,3 +17,6 @@ export { FileStore } from './lib/interfaces/file-store.interface';
 export { StoredFile } from './lib/interfaces/stored-file.interface';
 export { Subscriber } from './lib/interfaces/notify.interface';
 export { RabbitRouting } from './lib/types/rabbit-routing.enum';
+export { RequestWithUser } from './lib/interfaces/request-with-user.interface';
+export { JwtToken } from './lib/interfaces/jwt-token.interface';
+export { RefreshTokenPayload } from './lib/interfaces/refresh-token-payload.interface';

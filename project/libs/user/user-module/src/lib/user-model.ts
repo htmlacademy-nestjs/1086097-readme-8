@@ -38,6 +38,9 @@ export class UserModel extends Document implements AuthUser {
   public subscribers?: string[];
 
   @Prop()
+  public subscriptions?: string[];
+
+  @Prop()
   public passwordHash!: string;
 }
 

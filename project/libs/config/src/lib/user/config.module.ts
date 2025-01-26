@@ -4,7 +4,6 @@ import appConfig from '../app.config';
 import mongoConfig from './mongo.config';
 import jwtConfig from './jwt.config';
 import rabbitConfig from '../rabbit/rabbit.config';
-// import notifyConfig from '../notify/notify.config';
 
 const ENV_USER_FILE_PATH = 'apps/user/.env';
 

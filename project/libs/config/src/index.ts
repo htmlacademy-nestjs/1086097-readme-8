@@ -6,6 +6,7 @@ export { default as dbMongoConfig } from './lib/user/mongo.config';
 export { getMongooseOptions } from './lib/mongodb/get-mongoose-options';
 export { default as jwtConfig } from './lib/user/jwt.config';
 export { getJwtOptions } from './lib/user/get-jwt-options';
+export { getRefreshOptions } from './lib/user/get-refresh-options';
 
 export { FileStoreConfigModule } from './lib/file-store/file-store-config.module';
 export { default as FileStoreConfig } from './lib/file-store/file-store.config';

@@ -4,15 +4,15 @@ POST http://localhost:3001/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"olegD@yandex.com",
-  "name":"Oleg D",
-  "password":"123457"
+  "email":"oleg@yandex.com",
+  "name":"Oleg",
+  "password":"123456"
 }
 
 ###
 
 #Получение информации о пользователе по ID
-GET http://localhost:3001/api/auth/677e6e3a81fa724ae26b3c91 HTTP/1.1
+GET http://localhost:3001/api/auth/67645530e791c623065e30c1 HTTP/1.1
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI4OGM1Y2NhYjM1YWM5ODRjODM1YjQiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJKdWx5IiwiaWF0IjoxNzA2NTkzNDE1LCJleHAiOjE3MDY2Nzk4MTV9.uouP17pKbM3kfnmUEyF4O3ijxv22BO1yzYC3frryWaY
 
 ###
@@ -22,16 +22,49 @@ POST http://localhost:3001/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email":"userZ@yandex.com",
-  "password":"123457"
+  "email":"oleg@yandex.com",
+  "password":"123456"
 }
 ###
 
 #Поиск пользователя по email
-GEt http://localhost:3001/api/users/user@yandex.com HTTP/1.1
+GEt http://localhost:3001/api/users/oleg22@yandex.com HTTP/1.1
+###
+
+#Поиск пользователя по ID
+GEt http://localhost:3001/api/auth/user/67960a2f6be01eeb755fc5f8 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY0NTUzMGU3OTFjNjIzMDY1ZTMwYzEiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI0LTEyLTE5VDE3OjE3OjM1LjE5NloiLCJpYXQiOjE3Mzc4MzQ2MDMsImV4cCI6MTczNzgzNDkwM30.-Aq21w4LsW3PT5rhcd1967oxWUPWe1hwM9KXVvMoFsM
+###
+
+#Avatar по ID
+PUT http://localhost:3001/api/auth/avatar/67645530e791c623065e30c1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY0NTUzMGU3OTFjNjIzMDY1ZTMwYzEiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI0LTEyLTE5VDE3OjE3OjM1LjE5NloiLCJpYXQiOjE3Mzc4MzQ2MDMsImV4cCI6MTczNzgzNDkwM30.-Aq21w4LsW3PT5rhcd1967oxWUPWe1hwM9KXVvMoFsM
+Content-Type: application/json
+
+{
+  "avatarId":"user.jpg"
+}
+###
+
+
+POST http://localhost:3001/api/auth/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY0NTUzMGU3OTFjNjIzMDY1ZTMwYzEiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI0LTEyLTE5VDE3OjE3OjM1LjE5NloiLCJpYXQiOjE3Mzc4MzQ2MDMsImV4cCI6MTczNzgzNDkwM30.-Aq21w4LsW3PT5rhcd1967oxWUPWe1hwM9KXVvMoFsM
+###
+
+# Подписка на другого пользователя
+PUT http://localhost:3001/api/auth/subscribe/67960a2f6be01eeb755fc5f8 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3Mzc4ODc4NTMsImV4cCI6MTczNzg4ODE1M30.ebN7EYFVsC3eS5peyIvn9CI7oNK78snY8HzM3H6fj3g
+###
+
+# Отпиписка от другого пользователя
+PUT http://localhost:3001/api/auth/unsubscribe/67960a2f6be01eeb755fc5f8 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3Mzc4ODc4NTMsImV4cCI6MTczNzg4ODE1M30.ebN7EYFVsC3eS5peyIvn9CI7oNK78snY8HzM3H6fj3g
 ###
 
 # Demo route for Pipe
 GET http://localhost:3001/api/auth/demo/677e6e3a81fa724ae26b3c91 HTTP/1.1.
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzdlNmUzYTgxZmE3MjRhZTI2YjNjOTEiLCJlbWFpbCI6InVzZXJUQHlhbmRleC5jb20iLCJuYW1lIjoiT2xlZyIsImlhdCI6MTczNjMzOTgzNSwiZXhwIjoxNzM2MzQwMTM1fQ.N3GX6d3-p8ikxVP0bnPdET8cc-JAPjEO4HspyvP_fSA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzY0NTUzMGU3OTFjNjIzMDY1ZTMwYzEiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI0LTEyLTE5VDE3OjE3OjM1LjE5NloiLCJpYXQiOjE3Mzc4MzQ2MDMsImV4cCI6MTczNzgzNDkwM30.-Aq21w4LsW3PT5rhcd1967oxWUPWe1hwM9KXVvMoFsM
 ###
+
+
+
