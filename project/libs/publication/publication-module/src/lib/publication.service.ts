@@ -29,8 +29,6 @@ export class PublicationService {
 
     public async findDetailPublicationById(publicationId: string) {
       const publication = await this.publicationRepository.findPublicationById(publicationId);
-      // const user = await this.authService.getUser(publication.userId);
-      // console.log(user);
       return publication;
     }
 

@@ -1,6 +1,7 @@
+export { PublicationConfigModule } from './lib/publication/config.module';
 export { ConfigModule } from './lib/user/config.module';
-export { AppConfig } from './lib/app.config';
-export { default as appConfig } from './lib/app.config';
+export { AppConfig } from './lib/user/app.config';
+export { default as appConfig } from './lib/user/app.config';
 export { MongoConfig } from './lib/user/mongo.config';
 export { default as dbMongoConfig } from './lib/user/mongo.config';
 export { getMongooseOptions } from './lib/mongodb/get-mongoose-options';

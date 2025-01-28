@@ -9,6 +9,7 @@ import { IsString,
   IsNumber,
   IsEnum,
   ValidateIf,
+  IsArray
 } from 'class-validator';
 import { MinLengthCheck, MaxLengthCheck } from '@project/core'
 import { PublicationStatus } from '@project/core';
@@ -133,7 +134,8 @@ export class CreatePublicationDto {
     example: 'Друзья',
   })
   @ValidateIf(o => o.tags != null)
-  @IsString()
+  @IsArray()
+  @IsString({ each: true })
   @IsOptional()
   public tags?: string[];
 

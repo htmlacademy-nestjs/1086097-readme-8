@@ -35,3 +35,15 @@ export const AuthenticationResponseMessage = {
 export const MIN_PORT = 0;
 export const MAX_PORT = 65535;
 export const DEFAULT_MONGO_PORT = 27017;
+
+export enum ApplicationServiceURL {
+  User = 'http://localhost:3001/api/users',
+  Auth = 'http://localhost:3001/api/auth',
+  Public = 'http://localhost:3002/api/publications',
+  Comment = 'http://localhost:3002/api/publications/comments',
+  Like = 'http://localhost:3002/api/publications/likes',
+  Uploader = 'http://localhost:3003/api/files',
+}
+
+export const HTTP_CLIENT_MAX_REDIRECTS = 5;
+export const HTTP_CLIENT_TIMEOUT = 5000;

@@ -7,9 +7,8 @@ import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationFactory } from './publication.factory';
 import { PublicationQuery } from './publicationQuery';
-import { PaginationResult } from '@project/core';
 import { getFormatedTags } from '@project/helpers';
-import { SortDirection, PublicationStatus } from '@project/core';
+import { SortDirection, PublicationStatus, Publication, PaginationResult } from '@project/core';
 
 const DEFAULT_SORTING_TYPE = 'createAt';
 const DEFAULT_SORTING_DIRECTION = SortDirection.Desc;
@@ -73,8 +72,10 @@ export class PublicationRepository extends PublicationFactory {
   }
 
   public async updatePublication(publicationId: string, dto: UpdatePublicationDto): Promise<PublicationEntity> {
-    await this.findPublicationById(publicationId);
-    const pojo = this.create(dto).toPOJO();
+    const publication = await this.findPublicationById(publicationId);
+    if (!publication) {throw new NotFoundException(`Publication not found`);}
+    const pojo = this.create({...publication, ...dto}).toPOJO();
+
     const updatedPublication = await this.client.publication.update({
       where: { publicationId },
       data: {
@@ -208,5 +209,17 @@ export class PublicationRepository extends PublicationFactory {
     if (repostPublication) {
       throw new ConflictException(`Repost is already exist`);
     }
+  }
+
+  public async getAllPublishedPublication(): Promise<Publication[]> {
+    return await this.client.publication.findMany({
+      where: {
+        publicStatus: 'Published',
+      },
+      include: {
+        comments: true,
+        likes: true,
+      },
+    });
   }
 }
