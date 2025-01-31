@@ -28,14 +28,14 @@ export class MailService {
     })
   }
 
-  public async sendNewsletter(email: string, publicationsInfo: Publication[]) {
+  public async sendNewsletter(email: string, publicationInfo: Publication) {
     await this.mailerService.sendMail({
       from: this.notifyConfig.mail.from,
       to: email,
       subject: NEWS_LETTER,
       template: './newsletter',
       context: {
-        publics: publicationsInfo,
+        publics: publicationInfo,
       },
     });
   }

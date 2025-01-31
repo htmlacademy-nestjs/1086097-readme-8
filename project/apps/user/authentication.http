@@ -12,8 +12,8 @@ Content-Type: application/json
 ###
 
 #Получение информации о пользователе по ID
-GET http://localhost:3001/api/auth/67645530e791c623065e30c1 HTTP/1.1
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI4OGM1Y2NhYjM1YWM5ODRjODM1YjQiLCJlbWFpbCI6InVzZXJAeWFuZGV4LmNvbSIsIm5hbWUiOiJKdWx5IiwiaWF0IjoxNzA2NTkzNDE1LCJleHAiOjE3MDY2Nzk4MTV9.uouP17pKbM3kfnmUEyF4O3ijxv22BO1yzYC3frryWaY
+GET http://localhost:3001/api/auth/user/67960a2f6be01eeb755fc5f8 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyMjg3MjAsImV4cCI6MTczODIyOTAyMH0.Ru7x2c0kyK_9N-xcnAyPyoqBwS85ofQxnm64F_qaF5I
 
 ###
 
@@ -24,6 +24,19 @@ Content-Type: application/json
 {
   "email":"oleg@yandex.com",
   "password":"123456"
+}
+###
+
+
+#Смена пароля пользователя
+PUT http://localhost:3001/api/auth/change-password HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyMjg3MjAsImV4cCI6MTczODIyOTAyMH0.Ru7x2c0kyK_9N-xcnAyPyoqBwS85ofQxnm64F_qaF5I
+Content-Type: application/json
+
+{
+  "oldPassword":"123456",
+  "newPassword":"123456",
+  "id": "679608903bce2ef9ff917fce"
 }
 ###
 

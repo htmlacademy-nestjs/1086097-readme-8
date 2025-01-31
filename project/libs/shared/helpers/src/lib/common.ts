@@ -56,7 +56,7 @@ export function getMongooseOptions(optionSpace: string): MongooseModuleAsyncOpti
 }
 
 export const getFormatedTags = (tags: string[]) => {
-  const formatedTags = tags.map((tag) => tag.toLowerCase());
+  const formatedTags = tags.map((tag) => tag.toLowerCase().replace(/s+/g, ''));
   const uniqueTags = new Set(formatedTags);
   return [...uniqueTags];
 }

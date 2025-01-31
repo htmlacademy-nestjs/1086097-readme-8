@@ -9,7 +9,7 @@ import { Subscriber } from '@project/core';
 export class EmailSubscriberService {
   constructor(
     private readonly emailSubscriberRepository: EmailSubscriberRepository
-  ) {  console.log('EmailSubscriberRepository:', emailSubscriberRepository);}
+  ) {}
 
   public async addSubscriber(subscriber: CreateSubscriberDto): Promise<EmailSubscriberEntity> {
     const { email } = subscriber;

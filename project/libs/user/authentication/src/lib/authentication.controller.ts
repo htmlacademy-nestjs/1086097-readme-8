@@ -57,7 +57,7 @@ export class AuthenticationController {
     status: HttpStatus.NOT_FOUND,
     description: AuthenticationResponseMessage.UserNotFound,
   })
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get('/user/:id')
   public async show(@Param('id', MongoIdValidationPipe) id: string) {
     const user = await this.authService.getUser(id);
@@ -65,7 +65,6 @@ export class AuthenticationController {
   }
 
 
-  @UseGuards(JwtAuthGuard)
   @ApiResponse({
     status: HttpStatus.CONFLICT,
     description: 'Current password is wrong',
@@ -115,6 +114,13 @@ export class AuthenticationController {
   })
   public async refreshToken(@Req() {user}: RequestWithUser) {
     return this.authService.createUserToken(user);
+  }
+
+
+  @UseGuards(JwtAuthGuard)
+  @Post('check')
+  public async checkToken(@Req() { user: payload }: RequestWithUser) {
+    return payload;
   }
 
   @UseGuards(JwtAuthGuard)

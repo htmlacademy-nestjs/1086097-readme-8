@@ -6,10 +6,10 @@ import { IsString,
   IsNotEmpty,
   IsOptional,
   IsUrl,
-  IsNumber,
-  IsEnum,
   ValidateIf,
-  IsArray
+  IsArray,
+  ArrayMaxSize,
+  Matches
 } from 'class-validator';
 import { MinLengthCheck, MaxLengthCheck } from '@project/core'
 import { PublicationStatus } from '@project/core';
@@ -151,7 +151,12 @@ export class UpdatePublicationDto {
   })
   @ValidateIf(o => o.tags != null)
   @IsArray()
+
+  @ArrayMaxSize(8)
+  @MinLength(MinLengthCheck.Tag, { each: true })
+  @MaxLength(MaxLengthCheck.Tag, { each: true })
   @IsString({ each: true })
+  @Matches(/^[a-zA-Zа-яА-ЯЁё].*/, { each: true })
   @IsOptional()
   public tags?: string[];
 

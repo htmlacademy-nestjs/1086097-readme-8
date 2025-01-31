@@ -108,6 +108,14 @@ export class PublicationRepository extends PublicationFactory {
     return this.create(updatedPublication);
   }
 
+  public async getPublicationsByUserId(userId: string):Promise<number> {
+    const where: Prisma.PublicationWhereInput = {};
+    where.userId = userId;
+    console.log(userId);
+    console.log(where);
+    return await this.getPublicationsCount(where);
+  }
+
   public async find(query: PublicationQuery):Promise<PaginationResult<PublicationEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;

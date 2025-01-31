@@ -22,16 +22,21 @@ const ALLOWED_MIMETYPES = ['jpeg', 'jpg', 'png'];
 @Injectable()
 export class FileUploadPipe implements PipeTransform {
   transform(value: Express.Multer.File) {
-    const { fieldname, size, mimetype } = value;
-    const fileExtension = extension(mimetype);
+    try {
+      console.log(value, 'from FileUploadPipe');
+      const { fieldname, size, mimetype } = value;
+      const fileExtension = extension(mimetype);
 
-    if (!fileExtension || !ALLOWED_MIMETYPES.includes(fileExtension)) {
-      throw new BadRequestException(FileError.MimetypeError);
+      if (!fileExtension || !ALLOWED_MIMETYPES.includes(fileExtension)) {
+        throw new BadRequestException(FileError.MimetypeError);
+      }
+      const maxSize = fieldname === ImageType.Avatar ? MaxImageSizeInByte.Avatar : MaxImageSizeInByte.Image;
+      if (size > maxSize) {
+        throw new BadRequestException(FileError.InvalidSize);
+      }
+      return value;
+    } catch ({message}) {
+      throw new BadRequestException(`Ошибка загрузки файла: ${message}`);
     }
-    const maxSize = fieldname === ImageType.Avatar ? MaxImageSizeInByte.Avatar : MaxImageSizeInByte.Image;
-    if (size > maxSize) {
-      throw new BadRequestException(FileError.InvalidSize);
-    }
-    return value;
   }
 }

@@ -5,7 +5,6 @@ import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { EmailSubscriberService } from './email-subscriber.service';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { NewsletterDto } from './dto/newsletter.dto';
-import { getNewPublications } from '@project/helpers';
 import { RabbitRouting } from '@project/core';
 import { MailService } from './mail.service';
 
@@ -34,15 +33,11 @@ export class EmailSubscriberController {
     queue: 'readme.notify.newsletter',
   })
   public async sendNewsletter(dto: NewsletterDto) {
-    const { email, publications } = dto;
+    const { email, publication } = dto;
     const recipient = await this.subscriberService.getSubscriber(email);
-    if (recipient && publications.length > 0) {
-      const newPublics = getNewPublications(dto, recipient);
-
-      if (newPublics.length > 0) {
-        await this.mailService.sendNewsletter(recipient.email, newPublics);
-        await this.subscriberService.updateDateSent(recipient);
-      }
+    if (recipient && publication) {
+      await this.mailService.sendNewsletter(recipient.email, publication);
+      await this.subscriberService.updateDateSent(recipient);
     }
   }
 }

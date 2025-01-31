@@ -20,3 +20,4 @@ export { RabbitRouting } from './lib/types/rabbit-routing.enum';
 export { RequestWithUser } from './lib/interfaces/request-with-user.interface';
 export { JwtToken } from './lib/interfaces/jwt-token.interface';
 export { RefreshTokenPayload } from './lib/interfaces/refresh-token-payload.interface';
+export { ApplicationServiceURL } from './lib/const/const';

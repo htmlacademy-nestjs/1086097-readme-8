@@ -1,7 +1,9 @@
 export { AuthenticationModule } from "./lib/authentication.module";
 export { AuthenticationService } from "./lib/authentication.service";
 export { UserRdo } from "./lib/rdo/user.rdo";
+export { CreateUserDto } from "./lib/dto/create-user.dto";
 export { ChangePasswordDto } from "./lib/dto/change-password.dto";
+export { LoginUserDto } from "./lib/dto/login-user.dto";
 export { LocalStrategy } from "./lib/strategies/local.strategy";
 export { RefreshTokenService } from "./lib/refresh-module/refresh-token.service";
 export { RefreshTokenModule } from "./lib/refresh-module/refresh-token.module";

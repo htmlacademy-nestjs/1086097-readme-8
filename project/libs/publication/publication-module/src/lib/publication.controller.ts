@@ -58,11 +58,30 @@ export class PublicationController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  @UsePipes(ValidateAuthorPipe)
+  // @UsePipes(ValidateAuthorPipe)
   public async findPublicationById(@Param('id') id: string) {
     const publication = await this.publicationService.findPublicationById(id);
-    return fillDto(PublicationRdo, publication.toPOJO());
+    return fillDto(PublicationRdo, publication);
+  }
+
+
+  @ApiResponse({
+    type: PublicationRdo,
+    status: HttpStatus.OK,
+    description: 'Get Publications count by user ID',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Not found',
+  })
+  // @UseGuards(JwtAuthGuard)
+  @Get('/user/:userId')
+  @UsePipes(ValidateAuthorPipe)
+  public async getPublicationsCountByUserId(@Param('userId') userId: string) {
+    const publicationsCount = await this.publicationService.getPublicationsCountByUserId(userId);
+    return publicationsCount;
   }
 
 

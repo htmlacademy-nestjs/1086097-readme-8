@@ -3,7 +3,7 @@ import { NewsletterDto } from '@project/email-subscriber';
 import dayjs from 'dayjs';
 
 export const getNewPublications = (
-  { publications, id }: NewsletterDto,
+  { publications, id },
   { dateLastNotify }: Subscriber
 ) => {
   const result = publications.filter(
