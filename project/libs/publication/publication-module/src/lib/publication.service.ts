@@ -1,20 +1,27 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PublicationRepository } from './publication.repository';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationQuery } from './publicationQuery';
 import { PublicationEntity } from './publication.entity';
-// import { AuthenticationService } from '@project/authentication';
+import { PublicationNotifyService } from './notify/notify.service';
 
 @Injectable()
 export class PublicationService {
   constructor(
     private readonly publicationRepository: PublicationRepository,
-    // private readonly authService: AuthenticationService
+    private readonly publicationNotifyService: PublicationNotifyService,
     ) {}
 
     public async createPublication(dto: CreatePublicationDto) {
       const publication = await this.publicationRepository.createPublication(dto);
+
+      await this.publicationNotifyService.sendNewsletter({
+        email: 'пока не понимаю',
+        publication,
+        id: publication.userId,
+      });
+
       return publication;
     }
 
@@ -29,8 +36,6 @@ export class PublicationService {
 
     public async findDetailPublicationById(publicationId: string) {
       const publication = await this.publicationRepository.findPublicationById(publicationId);
-      // const user = await this.authService.getUser(publication.userId);
-      // console.log(user);
       return publication;
     }
 
@@ -51,6 +56,11 @@ export class PublicationService {
 
     public async getDraftsPublications(userId: string) {
       return await this.publicationRepository.findDrafts(userId);
+    }
+
+    public async getPublicationsCountByUserId(userId: string) {
+      const count =  await this.publicationRepository.getPublicationsByUserId(userId);
+      return count;
     }
 
     public async createRepostPublication(publicationId: string, userId: string): Promise<PublicationEntity> {

@@ -1,0 +1,32 @@
+# Upload some file
+POST http://localhost:3003/api/files/upload/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="C:/avatar.jpg"
+Content-Type: image/jpeg
+
+< /C:/avatar.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+
+## Отправить изображение на аватар
+POST http://localhost:3003/api/files/upload/image HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="C:/avatar.jpg"
+Content-Type: image/jpeg
+
+< /C:/avatar.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+
+# Get file by ID
+GET http://localhost:3003/api/files/678667ef7544effec75792a3 HTTP/1.1
+
+###

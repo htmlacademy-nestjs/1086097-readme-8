@@ -6,9 +6,10 @@ import { IsString,
   IsNotEmpty,
   IsOptional,
   IsUrl,
-  IsNumber,
-  IsEnum,
-  ValidateIf
+  ValidateIf,
+  IsArray,
+  ArrayMaxSize,
+  Matches
 } from 'class-validator';
 import { MinLengthCheck, MaxLengthCheck } from '@project/core'
 import { PublicationStatus } from '@project/core';
@@ -23,7 +24,7 @@ export class UpdatePublicationDto {
   @ValidateIf(o => o.publicationId != null)
   @IsString()
   @IsOptional()
-  public publicationId!: string;
+  public publicationId?: string;
 
   @ApiProperty({
     description: 'User ID',
@@ -149,23 +150,27 @@ export class UpdatePublicationDto {
     example: 'Друзья',
   })
   @ValidateIf(o => o.tags != null)
-  @IsString()
+  @IsArray()
+
+  @ArrayMaxSize(8)
+  @MinLength(MinLengthCheck.Tag, { each: true })
+  @MaxLength(MaxLengthCheck.Tag, { each: true })
+  @IsString({ each: true })
+  @Matches(/^[a-zA-Zа-яА-ЯЁё].*/, { each: true })
   @IsOptional()
   public tags?: string[];
 
   @ApiProperty({
     description: 'Publication Status',
-    example: 'published',
+    example: 'Published',
   })
-  @IsEnum(PublicationStatus)
-  public publicStatus!: keyof typeof PublicationStatus;
+  public publicStatus?: keyof typeof PublicationStatus;
 
   @ApiProperty({
     description: 'Publication Type',
-    example: 'video',
+    example: 'Video',
   })
-  @IsEnum(PublicationType)
-  public publicType!: keyof typeof PublicationType;
+  public publicType?: keyof typeof PublicationType;
 
 
   @ApiProperty({
@@ -174,7 +179,6 @@ export class UpdatePublicationDto {
   })
   @ValidateIf(o => o.isRepost != null)
   @IsBoolean()
-  @IsNotEmpty()
   public isRepost?: boolean;
 
   @ApiProperty({
@@ -183,7 +187,6 @@ export class UpdatePublicationDto {
   })
   @ValidateIf(o => o.originalAuthorId != null)
   @IsBoolean()
-  @IsNotEmpty()
   @IsOptional()
   public originalAuthorId?: string;
 
@@ -193,7 +196,6 @@ export class UpdatePublicationDto {
   })
   @ValidateIf(o => o.originalPublicationId != null)
   @IsBoolean()
-  @IsNotEmpty()
   @IsOptional()
   public originalPublicationId?: string;
 
@@ -201,20 +203,17 @@ export class UpdatePublicationDto {
     description: 'Comments Count',
     example: '1',
   })
-  @IsNumber()
-  @IsNotEmpty()
-  public commentsCount!: number;
+  public commentsCount?: number;
 
   @ApiProperty({
     description: 'Likes Count',
     example: '1',
   })
-  @IsNumber()
-  @IsNotEmpty()
-  public likesCount!: number;
+  public likesCount?: number;
+
   @ApiProperty({
-    description: 'Likes Count',
-    example: '1',
+    description: 'Comment',
+    example: 'Гавно',
   })
   public comments?: Comment[];
 }

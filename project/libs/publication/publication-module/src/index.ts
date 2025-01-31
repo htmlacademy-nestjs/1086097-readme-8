@@ -5,3 +5,4 @@ export { PublicationController } from './lib/publication.controller';
 export { PublicationModule } from './lib/publication.module';
 export { PublicationFactory } from './lib/publication.factory';
 export { PublicationEntity } from './lib/publication.entity';
+export { PublicationNotifyModule } from './lib/notify/notify.module';

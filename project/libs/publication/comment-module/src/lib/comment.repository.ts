@@ -1,8 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+
 import { CommentEntity } from './comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentFactory } from './comment.factory';
 import { PrismaClientService } from '@project/models';
+import { PaginationResult } from '@project/core';
+import { CommentQuery } from './commentQuery';
 
 @Injectable()
 export class CommentRepository extends CommentFactory {
@@ -10,6 +14,14 @@ export class CommentRepository extends CommentFactory {
   constructor(
     private readonly client: PrismaClientService
     ) {super()}
+
+  private async getCommentCount(where: Prisma.CommentWhereInput): Promise<number> {
+    return this.client.comment.count({ where });
+  }
+
+  private calculateCommentPages(totalCount: number, limit: number): number {
+    return Math.ceil(totalCount / limit);
+  }
 
   public async save(publicationId: string, dto: CreateCommentDto): Promise<CommentEntity> {
     const publication = await this.client.publication.findFirst({
@@ -42,22 +54,43 @@ export class CommentRepository extends CommentFactory {
     const comment = await this.client.comment.delete({where: {id}})
 
     await this.client.publication.update({
-      where: { publicationId: comment.id},
+      where: { publicationId: comment.publicationId},
       data: {
         commentsCount: { decrement: 1 },
       },
     });
   }
 
-  public async findCommentsByPublicationId(publicationId: string) {
-    const comments = await this.client.comment.findMany({
-      where: {publicationId}
-    })
 
-    if (!comments) {
+  public async findCommentsByPublicationId(publicationId: string, query: CommentQuery):Promise<PaginationResult<CommentEntity>> {
+    const orderBy: Prisma.CommentOrderByWithRelationInput = {};
+    const where: Prisma.CommentWhereInput = {};
+    const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
+    const take = query?.limit;
+
+    orderBy['createAt'] = query.sortDirection;
+    where.publicationId = publicationId;
+
+    const [records, commentsCount] = await Promise.all([
+      this.client.comment.findMany({
+        where,
+        orderBy,
+        skip,
+        take
+      }),
+      this.getCommentCount(where)
+    ])
+
+    if (!records) {
       throw new NotFoundException(`Comments for publication id ${publicationId} not found`);
     }
 
-    return comments.map(comment => this.create(comment))
+    return {
+      entities: records.map((record) => this.create(record)),
+      currentPage: query?.page,
+      totalPages: this.calculateCommentPages(commentsCount, take),
+      itemsPerPage: take,
+      totalItems: commentsCount,
+    };
   }
 }

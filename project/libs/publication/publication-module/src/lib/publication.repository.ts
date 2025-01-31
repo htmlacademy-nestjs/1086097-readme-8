@@ -1,16 +1,14 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { PrismaClientService } from '@project/models';
+
 import { PublicationEntity } from './publication.entity';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
-import { PublicationRdo } from './rdo/publication.rdo';
 import { PublicationFactory } from './publication.factory';
-import { PrismaClientService } from '@project/models';
-import { Prisma } from '@prisma/client';
 import { PublicationQuery } from './publicationQuery';
-import { PaginationResult } from '@project/core';
 import { getFormatedTags } from '@project/helpers';
-import { SortDirection, PublicationStatus } from '@project/core';
-import { fillDto } from '@project/helpers';
+import { SortDirection, PublicationStatus, Publication, PaginationResult } from '@project/core';
 
 const DEFAULT_SORTING_TYPE = 'createAt';
 const DEFAULT_SORTING_DIRECTION = SortDirection.Desc;
@@ -74,8 +72,10 @@ export class PublicationRepository extends PublicationFactory {
   }
 
   public async updatePublication(publicationId: string, dto: UpdatePublicationDto): Promise<PublicationEntity> {
-    await this.findPublicationById(publicationId);
-    const pojo = this.create(dto).toPOJO();
+    const publication = await this.findPublicationById(publicationId);
+    if (!publication) {throw new NotFoundException(`Publication not found`);}
+    const pojo = this.create({...publication, ...dto}).toPOJO();
+
     const updatedPublication = await this.client.publication.update({
       where: { publicationId },
       data: {
@@ -108,10 +108,20 @@ export class PublicationRepository extends PublicationFactory {
     return this.create(updatedPublication);
   }
 
+  public async getPublicationsByUserId(userId: string):Promise<number> {
+    const where: Prisma.PublicationWhereInput = {};
+    where.userId = userId;
+    console.log(userId);
+    console.log(where);
+    return await this.getPublicationsCount(where);
+  }
+
   public async find(query: PublicationQuery):Promise<PaginationResult<PublicationEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.PublicationWhereInput = {};
+    // или сортировка по одному из ключей
+    // const orderBy: Prisma.PublicationOrderByWithRelationInput = {};
     const orderBy: Prisma.PublicationOrderByWithRelationInput[] = [];
     const sortingType = query?.sortingType ? query.sortingType : DEFAULT_SORTING_TYPE;
     const sortDirection = query?.sortingDirection ? query.sortingDirection : DEFAULT_SORTING_DIRECTION;
@@ -207,5 +217,17 @@ export class PublicationRepository extends PublicationFactory {
     if (repostPublication) {
       throw new ConflictException(`Repost is already exist`);
     }
+  }
+
+  public async getAllPublishedPublication(): Promise<Publication[]> {
+    return await this.client.publication.findMany({
+      where: {
+        publicStatus: 'Published',
+      },
+      include: {
+        comments: true,
+        likes: true,
+      },
+    });
   }
 }

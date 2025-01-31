@@ -1,0 +1,47 @@
+#Авторизация пользователя по email и password
+POST http://localhost:3777/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email":"oleg@yandex.com",
+  "password":"123456"
+}
+
+###
+
+# Получение новой пары
+POST http://localhost:3777/api/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJ0b2tlbklkIjoiZTFmY2UyZWItM2MwOC00M2JlLTllMWMtYWFhYmE2MjBjYzJlIiwiaWF0IjoxNzM4MjIyODUwLCJleHAiOjE3NDA4MTQ4NTB9.pEgFz3f9-Ofsqbx4sZs46udck_ow6WEMn4BZTTs8pE4
+
+###
+
+
+# Смена пароля пользователя
+POST http://localhost:3777/api/change-password HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+
+{
+  "oldPassword":"123456",
+  "newPassword":"123456"
+}
+###
+
+# Получение пользователя
+GET http://localhost:3777/api/user/67960a2f6be01eeb755fc5f8 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgzMDU0MzMsImV4cCI6MTczODMwNTczM30.JVW__5DhCQFvMos5iBQS_XUlB_D3cACezyIFscX97vo
+
+###
+
+# Загрузка аватара
+POST http://localhost:3777/api/files/upload/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="C:/avatar.jpg"
+Content-Type: image/jpeg
+
+< /C:/avatar.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###

@@ -1,8 +1,7 @@
 import { Transform } from 'class-transformer';
-import { IsArray, IsIn, IsNumber, IsOptional, IsUUID, IsMongoId } from 'class-validator';
+import { IsIn, IsNumber, IsOptional, IsMongoId } from 'class-validator';
 
 import { SortDirection, PublicationStatus, PublicationType } from '@project/core';
-
 
 const DEFAULT_PUBLICATION_COUNT_LIMIT = 25;
 const DEFAULT_SORTING_TYPE = 'createAt';
@@ -42,9 +41,4 @@ export class PublicationQuery {
 
   @IsOptional()
   public tag?: string;
-
-  // @IsUUID('all', { each: true })
-  // @IsArray()
-  // @IsOptional()
-  // public categories?: string[];
 }

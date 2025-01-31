@@ -47,3 +47,65 @@ git clone SSH-адрес_вашего_форка
 <a href="https://htmlacademy.ru/profession/fullstack"><img align="left" width="50" height="50" title="HTML Academy" src="https://up.htmlacademy.ru/static/img/intensive/nodejs/logo-for-github-2.png"></a>
 
 Репозиторий создан для обучения на профессиональном онлайн‑курсе «[Node.js. Проектирование веб-сервисов](https://htmlacademy.ru/profession/fullstack)» от [HTML Academy](https://htmlacademy.ru).
+
+
+### 5. Запуск приложений
+
+## 5.1. Приложение Publications
+
+  команды для работы с призмой
+    npx nx run publication:db:generate
+    npx nx run publication:db:migrate
+    npx nx run publication:db:reset
+    npx nx run publication:db:validate
+    npx nx run publication:db:fill
+
+  1. запускаем докер с постгрес
+  docker compose --file ./apps/publication/docker-compose.dev.yml --env-file ./apps/publication/publication.env up -d
+  2. запускаем сервер
+  npx nx run publication:serve
+  _________________________________________________________
+
+  файл запросов publication.http
+  находится в директории project/apps/publication/publication.http
+
+
+## 5.2. Приложение Users
+  1. запускаем докер монго с пользователями
+  docker compose --file ./apps/user/docker-compose.dev.yml --env-file ./apps/user/.env up -d
+  2. запускаем сервер
+  npx nx run user:serve
+
+  _________________________________________________________
+
+  файл запросов authentication.http
+  находится в директории project/apps/user/authentication.http
+
+
+## 5.3. Приложение Filestore
+1. запускаем докер монго
+docker compose --file ./apps/filestore/docker-compose.dev.yml --env-file ./apps/filestore/.env up -d
+2. запускаем сервер
+npx nx run filestore:serve 
+
+_________________________________________________________
+
+файл запросов file-store.http
+находится в директории  project/apps/filestore/file-store.http
+
+
+## 5.4. Приложение Notify
+1. запускаем докер с smpt и rabbitmq
+docker compose --file ./apps/notify/docker-compose.dev.yml --project-name "readme-fake-smtp-server" --env-file "./apps/notify/.env" up -d
+2. запускаем сервер
+npx nx run notify:serve 
+
+_________________________________________________________
+
+команда для отправки на фейковый сервер
+cmd /c curl --url "smtp://localhost:8025" --user "user:secretpassword" --mail-from "a@iantonov.me" --mail-rcpt "keks@htmlacademy.local" --upload-file "c:/1086097-readme-8/project/apps/notify/tmp/mail.txt"
+
+
+## 5.4. Приложение Apigateway
+2. запускаем сервер
+npx nx run apigateway:serve
