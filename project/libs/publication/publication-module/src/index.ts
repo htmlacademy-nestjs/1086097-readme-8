@@ -6,3 +6,5 @@ export { PublicationModule } from './lib/publication.module';
 export { PublicationFactory } from './lib/publication.factory';
 export { PublicationEntity } from './lib/publication.entity';
 export { PublicationNotifyModule } from './lib/notify/notify.module';
+export { CreatePublicationDto } from './lib/dto/create-publication.dto';
+export { UpdatePublicationDto } from './lib/dto/update-publication.dto';
