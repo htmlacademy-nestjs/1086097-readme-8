@@ -4,14 +4,14 @@ import { PublicationService } from './publication.service';
 import { PublicationController } from './publication.controller';
 import { PublicationFactory } from './publication.factory';
 import { PrismaClientModule } from '@project/models';
-import { ValidateAuthorPipe } from '@project/pipes';
 import { PublicationNotifyModule } from './notify/notify.module';
+import { HttpModule } from '@nestjs/axios';
 
 
 @Module({
-  imports: [PrismaClientModule, PublicationNotifyModule],
+  imports: [PrismaClientModule, PublicationNotifyModule, HttpModule],
   controllers: [PublicationController],
-  providers: [PublicationRepository, PublicationService, PublicationFactory, ValidateAuthorPipe],
+  providers: [PublicationRepository, PublicationService, PublicationFactory],
   exports: [PublicationService],
 })
 export class PublicationModule {}

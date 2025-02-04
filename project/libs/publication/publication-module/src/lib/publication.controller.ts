@@ -8,7 +8,6 @@ import { DetailPublicationRdo } from './rdo/detail-publication.rdo';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationQuery } from './publicationQuery';
 import { SearchPublicationQuery } from './dto/search.query';
-import { ValidateAuthorPipe } from '@project/pipes';
 import { JwtAuthGuard } from '@project/guards';
 import { PublicationNotifyService } from './notify/notify.service';
 import { SendNewsletterDto } from '../lib/notify/dto/send-newsletter.dto';
@@ -46,7 +45,6 @@ export class PublicationController {
     description: 'Not found',
   })
   @Delete(':id')
-  @UsePipes(ValidateAuthorPipe)
   public async deletePublicationsById(@Param('id') id: string) {
     await this.publicationService.deletePublication(id);
   }
@@ -63,7 +61,7 @@ export class PublicationController {
   })
   // @UseGuards(JwtAuthGuard)
   @Get(':id')
-  // @UsePipes(ValidateAuthorPipe)
+  // @UseGuards(ValidateAuthorPipe)
   public async findPublicationById(@Param('id') id: string) {
     const publication = await this.publicationService.findPublicationById(id);
     return fillDto(PublicationRdo, publication);
@@ -81,7 +79,6 @@ export class PublicationController {
   })
   // @UseGuards(JwtAuthGuard)
   @Get('/user/:userId')
-  @UsePipes(ValidateAuthorPipe)
   public async getPublicationsCountByUserId(@Param('userId') userId: string) {
     const publicationsCount = await this.publicationService.getPublicationsCountByUserId(userId);
     return publicationsCount;
@@ -132,7 +129,6 @@ export class PublicationController {
   })
   @Patch('/:id')
   @UseGuards(JwtAuthGuard)
-  @UsePipes(ValidateAuthorPipe)
   public async updatePublications(@Param('id') publicationId: string, @Body() dto: UpdatePublicationDto) {
     const publication = await this.publicationService.updatedPublicationById(publicationId, dto);
     return fillDto(PublicationRdo, publication.toPOJO());
@@ -148,7 +144,6 @@ export class PublicationController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  @UsePipes(ValidateAuthorPipe)
   @Post('searchtitle')
   public async findPublicationByTitle(@Query() query: SearchPublicationQuery) {
     const publications = await this.publicationService.getPublicationsByTitle(query);

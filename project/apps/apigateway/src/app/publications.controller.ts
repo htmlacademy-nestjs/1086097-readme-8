@@ -8,7 +8,7 @@ import { CreatePublicationDto, UpdatePublicationDto, PublicationQuery, SearchPub
 import { CreateCommentDto, CommentQuery } from '@project/comment-module';
 import { LikeDto } from '@project/like-module'
 import { ApplicationServiceURL } from './app.config';
-import { CheckAuthGuard } from '@project/guards';
+import { CheckAuthGuard, ValidateAuthorGuard } from '@project/guards';
 import { UserIdInterceptor } from '@project/interceptors';
 
 @ApiTags('Publications')
@@ -64,9 +64,8 @@ export class PublicationController {
     status: HttpStatus.OK,
     description: 'Publication updated',
   })
-  @UseGuards(CheckAuthGuard)
+  @UseGuards(CheckAuthGuard, ValidateAuthorGuard)
   @Put('publications/:id')
-
   public async update(@Req() req: Request, @Param('id') id: string, @Body() dto: UpdatePublicationDto) {
     const { data } = await this.httpService.axiosRef.patch(
       `${ApplicationServiceURL.Publication}/${id}`,
@@ -85,7 +84,6 @@ export class PublicationController {
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(UserIdInterceptor)
   @Post('publications/repost/:id/:userId')
-
   public async repost(@Param('id') id: string, @Param('userId') userId: string) {
     const { data } = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.Publication}/repost/${id}/${userId}`,
@@ -104,7 +102,7 @@ export class PublicationController {
   })
   @UseGuards(CheckAuthGuard)
   @Delete('publications/:id')
-
+  @UseGuards(CheckAuthGuard, ValidateAuthorGuard)
   public async delete(@Param('id') id: string, @Req() req: Request) {
     await this.httpService.axiosRef.delete(
       `${ApplicationServiceURL.Publication}/${id}`,
@@ -123,7 +121,6 @@ export class PublicationController {
     description: 'Publication not found',
   })
   @Get('publications/id/:id')
-
   public async indexPublication(@Param('id') id: string) {
     const { data } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Publication}/${id}`,
