@@ -1,7 +1,7 @@
 import { Entity, StorableEntity, Subscriber } from '@project/core';
 
 export class EmailSubscriberEntity extends Entity implements StorableEntity<Subscriber> {
-  public email!: string;
+  public email!: string | string[];
   public name!: string;
   public dateLastNotify?: string;
 

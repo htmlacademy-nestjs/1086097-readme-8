@@ -18,17 +18,13 @@ export class UserNotifyService {
     const exchange = this.rabbitConfigOptions.exchange;
     const routingKey = RabbitRouting.AddSubscriber;
 
-    if (!exchange || !routingKey) {
-        throw new Error('Exchange or routing key is undefined');
-    }
-
-    console.log(exchange, 'From UserNotifyService');
-    console.log(routingKey, 'From UserNotifyService');
+    if (!exchange) {throw new Error('Exchange key (config env) is undefined');}
 
     return await this.rabbitClient.publish(
         exchange,
         routingKey,
-        { ...dto }
+        {...dto }
     );
   }
 }
+

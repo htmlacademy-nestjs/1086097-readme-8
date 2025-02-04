@@ -1,5 +1,5 @@
-import { Controller, HttpStatus } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 
 import { EmailSubscriberService } from './email-subscriber.service';
@@ -9,7 +9,6 @@ import { RabbitRouting } from '@project/core';
 import { MailService } from './mail.service';
 
 @ApiTags('notify')
-
 @Controller()
 export class EmailSubscriberController {
   constructor(
@@ -23,8 +22,8 @@ export class EmailSubscriberController {
     queue: 'readme.notify.income',
   })
   public async create(subscriber: CreateSubscriberDto) {
-    this.subscriberService.addSubscriber(subscriber);
-    this.mailService.sendNotifyNewSubscriber(subscriber);
+    await this.subscriberService.addSubscriber(subscriber);
+    await this.mailService.sendNotifyNewSubscriber(subscriber);
   }
 
   @RabbitSubscribe({

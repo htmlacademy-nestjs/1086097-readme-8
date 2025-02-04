@@ -45,3 +45,129 @@ Content-Type: image/jpeg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
+
+
+# Создание публикации
+POST http://localhost:3777/api/publications HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+
+{
+  "isRepost": false,
+  "titleText": "Цифровизация Цифровизация",
+  "announcement": "Автор цифровизации цифровизации цифровизации цифровизации цифровизации цифровизациицифровизаци ицифровизации",
+  "text": "по этой проблеме. втор цифровизации цифровизации цифровизации цифровизации цифровизации цифровизациицифровизаци ициф втор цифровизации цифровизации цифровизации цифровизации цифровизации цифровизациицифровизаци ициф",
+  "tags": ["Video", "Animals"],
+  "commentsCount":0,
+  "likesCount":0,
+  "publicStatus": "Published",
+  "publicType": "Text"
+}
+
+###
+
+
+# Создание публикации photo
+POST http://localhost:3777/api/files/upload/image/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="C:/avatar.jpg"
+Content-Type: image/jpeg
+
+< /C:/avatar.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+###
+
+
+#Обновить публикацию
+PUT http://localhost:3777/api/publications/c1ea54ad-5205-401e-9ca9-d3bf3d2cb3cc HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+
+{
+  "titleText": "Меняем заголовооооок API"
+}
+###
+
+#Репост публикации
+POST http://localhost:3777/api/publications/repost/97864668-a163-4932-8073-704e4a72d26f/658170cbb954e9f5b905ccf3 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+###
+
+#Репост публикации
+DELETE http://localhost:3777/api/publications/c1ea54ad-5205-401e-9ca9-d3bf3d2cb3cc HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+###
+
+# Получение публикации по ID
+GET http://localhost:3777/api/publications/id/c3d2719c-8daa-49fb-b263-c59db83e4494 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+###
+
+# Получение всех публикаций блога с пагинацией и фильтрами
+GET http://localhost:3777/api/publications?limit=2&sortDirection=asc HTTP/1.1
+Content-Type: application/json
+###
+
+# Получение всех публикаций блога с пагинацией и фильтрами для конкретного пользователя
+GET http://localhost:3000/api/publications?limit=25&sortDirection=asc&userId=658170cbb954e9f5b905ccf3 HTTP/1.1
+Content-Type: application/json
+###
+
+# Поиск публикации по заголовку
+GET http://localhost:3777/api/searchtitle?title=Меняем заголовооооок HTTP/1.1
+Content-Type: application/json
+###
+
+
+# Получение черновиков публикаций конкретного пользователя
+GET http://localhost:3777/api/publications/drafts/679608903bce2ef9ff917fce  HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+###
+
+# Создание нового комментария
+POST http://localhost:3777/api/publications/comments/c3d2719c-8daa-49fb-b263-c59db83e4494 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+
+{
+  "userId": "679608903bce2ef9ff917fce",
+  "text": "Comment zhopa zhopa"
+}
+###
+
+# Получение комментариев по ID
+GET http://localhost:3777/api/publications/comments/c3d2719c-8daa-49fb-b263-c59db83e4494?limit=25&sortDirection=asc&page=1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+
+###
+
+# Удаление комментария по ID
+DELETE http://localhost:3777/api/publications/comments/9b21b0d6-a365-4189-8e68-310eca332603 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+
+###
+
+
+#Добавление лайка
+POST http://localhost:3777/api/publications/likes?userId=679608903bce2ef9ff917fce&publicationId=c3d2719c-8daa-49fb-b263-c59db83e4494 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+
+###
+
+
+#Удаление лайка
+DELETE http://localhost:3777/api/publications/likes/c3d2719c-8daa-49fb-b263-c59db83e4494/679608903bce2ef9ff917fce HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzk2MDg5MDNiY2UyZWY5ZmY5MTdmY2UiLCJlbWFpbCI6Im9sZWdAeWFuZGV4LmNvbSIsIm5hbWUiOiJPbGVnIiwiY3JlYXRlQXQiOiIyMDI1LTAxLTI2VDEwOjAzOjU5LjMxNFoiLCJpYXQiOjE3MzgyNDMwMzMsImV4cCI6MTczODI0MzMzM30._sSrGyqPfD15RL0XGAv2rLdH9I9P-ntXS8cQYWBSU30
+Content-Type: application/json
+
+###

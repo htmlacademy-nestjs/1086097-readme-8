@@ -4,6 +4,7 @@ import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationQuery } from './publicationQuery';
 import { PublicationEntity } from './publication.entity';
+import { SearchPublicationQuery } from './dto/search.query';
 import { PublicationNotifyService } from './notify/notify.service';
 
 @Injectable()
@@ -17,7 +18,7 @@ export class PublicationService {
       const publication = await this.publicationRepository.createPublication(dto);
 
       await this.publicationNotifyService.sendNewsletter({
-        email: 'пока не понимаю',
+        email: 'ya@dont_now.ru',
         publication,
         id: publication.userId,
       });
@@ -49,8 +50,8 @@ export class PublicationService {
       return publications;
     }
 
-    public async getPublicationsByTitle(title: string) {
-      const publications = await this.publicationRepository.findPublicationsByTitle(title);
+    public async getPublicationsByTitle(query: SearchPublicationQuery) {
+      const publications = await this.publicationRepository.findPublicationsByTitle(query);
       return publications;
     }
 

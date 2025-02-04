@@ -7,6 +7,7 @@ import { CommentFactory } from './comment.factory';
 import { PrismaClientService } from '@project/models';
 import { PaginationResult } from '@project/core';
 import { CommentQuery } from './commentQuery';
+import { rejects } from 'assert';
 
 @Injectable()
 export class CommentRepository extends CommentFactory {
@@ -51,14 +52,18 @@ export class CommentRepository extends CommentFactory {
   }
 
   public async deleteCommentById(id: string): Promise<void> {
-    const comment = await this.client.comment.delete({where: {id}})
+    try {
+      const comment = await this.client.comment.delete({where: {id}})
 
-    await this.client.publication.update({
-      where: { publicationId: comment.publicationId},
-      data: {
-        commentsCount: { decrement: 1 },
-      },
-    });
+      await this.client.publication.update({
+        where: { publicationId: comment.publicationId},
+        data: {
+          commentsCount: { decrement: 1 },
+        },
+      });
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
 

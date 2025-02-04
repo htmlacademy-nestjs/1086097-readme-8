@@ -1,5 +1,5 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UseGuards, Request, Controller, Body, Post, Get, Param, Patch, Delete, Query, HttpStatus, UsePipes } from '@nestjs/common';
+import { UseGuards, Controller, Body, Post, Get, Param, Patch, Delete, Query, HttpStatus, UsePipes } from '@nestjs/common';
 import { PublicationService } from './publication.service';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { fillDto } from '@project/helpers';
@@ -7,15 +7,18 @@ import { PublicationRdo } from './rdo/publication.rdo';
 import { DetailPublicationRdo } from './rdo/detail-publication.rdo';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationQuery } from './publicationQuery';
+import { SearchPublicationQuery } from './dto/search.query';
 import { ValidateAuthorPipe } from '@project/pipes';
 import { JwtAuthGuard } from '@project/guards';
-import { Request as RequestEx } from 'express';
+import { PublicationNotifyService } from './notify/notify.service';
+import { SendNewsletterDto } from '../lib/notify/dto/send-newsletter.dto';
 
 @ApiTags('Publication')
 @Controller('publications')
 export class PublicationController {
   constructor(
-    private readonly publicationService: PublicationService
+    private readonly publicationService: PublicationService,
+    private readonly publicationNotifyService: PublicationNotifyService
   ) {}
 
   @ApiResponse({
@@ -58,7 +61,7 @@ export class PublicationController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get(':id')
   // @UsePipes(ValidateAuthorPipe)
   public async findPublicationById(@Param('id') id: string) {
@@ -94,7 +97,7 @@ export class PublicationController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Bad request',
   })
-  @Get('')
+  @Get('query')
   public async getPublications(@Query() query: PublicationQuery) {
     const data = await this.publicationService.getPublications(query);
     const dataWidthDto = {...data, entities: data.entities.map((entity) => fillDto(PublicationRdo, entity))}
@@ -127,11 +130,10 @@ export class PublicationController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  @Patch(':id')
+  @Patch('/:id')
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidateAuthorPipe)
-  public async updatePublications(@Param('id') publicationId: string, @Body() dto: UpdatePublicationDto, @Request() rec: RequestEx) {
-    console.log(rec.user);
+  public async updatePublications(@Param('id') publicationId: string, @Body() dto: UpdatePublicationDto) {
     const publication = await this.publicationService.updatedPublicationById(publicationId, dto);
     return fillDto(PublicationRdo, publication.toPOJO());
   }
@@ -146,11 +148,10 @@ export class PublicationController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  @UseGuards(JwtAuthGuard)
   @UsePipes(ValidateAuthorPipe)
-  @Get('/searchtitle/:title')
-  public async findPublicationByTitle(@Param('title') title: string) {
-    const publications = await this.publicationService.getPublicationsByTitle(title);
+  @Post('searchtitle')
+  public async findPublicationByTitle(@Query() query: SearchPublicationQuery) {
+    const publications = await this.publicationService.getPublicationsByTitle(query);
     return fillDto(PublicationRdo, publications);
   }
 
@@ -186,5 +187,15 @@ export class PublicationController {
       userId
     );
     return fillDto(PublicationRdo, repostPublication.toPOJO());
+  }
+
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Publications sent',
+  })
+  @Get('send-news')
+  public async sendNews(@Body() dto: SendNewsletterDto) {
+    return this.publicationNotifyService.sendNewsletter(dto);
   }
 }

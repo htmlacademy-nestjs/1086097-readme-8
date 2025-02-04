@@ -36,9 +36,9 @@ GET http://localhost:3000/api/publications/detail/fb527bed-f30b-4fd7-8339-5d7386
 Content-Type: application/json
 ###
 
-#Получить публикацию по title
 
-GET http://localhost:3000/api/publications/searchtitle/Меняем заголовок HTTP/1.1
+# Поиск публикации по заголовку
+POST http://localhost:3000/api/publications/searchtitle?title=Меняем заголовооооок HTTP/1.1
 Content-Type: application/json
 
 ###

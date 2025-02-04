@@ -28,7 +28,7 @@ export class MailService {
     })
   }
 
-  public async sendNewsletter(email: string, publicationInfo: Publication) {
+  public async sendNewsletter(email: string | string[], publicationInfo: Publication) {
     await this.mailerService.sendMail({
       from: this.notifyConfig.mail.from,
       to: email,
