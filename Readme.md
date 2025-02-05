@@ -106,6 +106,6 @@ _________________________________________________________
 cmd /c curl --url "smtp://localhost:8025" --user "user:secretpassword" --mail-from "a@iantonov.me" --mail-rcpt "keks@htmlacademy.local" --upload-file "c:/1086097-readme-8/project/apps/notify/tmp/mail.txt"
 
 
-## 5.4. Приложение Apigateway
-2. запускаем сервер
+## 5.5. Приложение Apigateway
+1. запускаем сервер
 npx nx run apigateway:serve
