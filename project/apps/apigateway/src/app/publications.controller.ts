@@ -149,7 +149,8 @@ export class PublicationController {
     const newEntities = await Promise.all(data.entities.map(async (entity) => {
       try {
         const { data: userData } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/user/${entity.userId}`);
-        return { ...entity, user: {...userData, subscribers: userData.subscribers.length} };
+        const { createdAt, avatar, subscriptions, subscribers, publicationsCount, ...filteredUserData } = userData;
+        return { ...entity, user: filteredUserData };
       } catch (error) {
         console.error(`Width ${entity.userId} – ${error}`);
         return { ...entity, user: null };
