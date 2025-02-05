@@ -8,7 +8,7 @@ import { CreatePublicationDto, UpdatePublicationDto, PublicationQuery, SearchPub
 import { CreateCommentDto, CommentQuery } from '@project/comment-module';
 import { LikeDto } from '@project/like-module'
 import { ApplicationServiceURL } from './app.config';
-import { CheckAuthGuard, ValidateAuthorGuard } from '@project/guards';
+import { CheckAuthGuard, ValidateAuthorGuard,  ValidateAuthorForCommitGuard} from '@project/guards';
 import { UserIdInterceptor } from '@project/interceptors';
 
 @ApiTags('Publications')
@@ -138,13 +138,25 @@ export class PublicationController {
     status: HttpStatus.NOT_FOUND,
     description: 'There are no posts that can be loaded',
   })
+  @UseGuards(CheckAuthGuard)
   @Get('publications')
   public async indexPublications(@Query() query: PublicationQuery) {
     const { data } = await this.httpService.axiosRef.get(
       `${ApplicationServiceURL.Publication}`,
       { params: query }
     );
-    return data;
+
+    const newEntities = await Promise.all(data.entities.map(async (entity) => {
+      try {
+        const { data: userData } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/user/${entity.userId}`);
+        return { ...entity, user: {...userData, subscribers: userData.subscribers.length} };
+      } catch (error) {
+        console.error(`Width ${entity.userId} – ${error}`);
+        return { ...entity, user: null };
+      }
+    }));
+
+    return {...data, entities: newEntities};
   }
 
 
@@ -247,6 +259,7 @@ export class PublicationController {
   })
   @UseGuards(CheckAuthGuard)
   @Delete(`publications/comments/:commentId`)
+  @UseGuards(CheckAuthGuard, ValidateAuthorForCommitGuard)
   public async remove(@Param('commentId') commentId: string) {
     const { data } = await this.httpService.axiosRef.delete(
       `${ApplicationServiceURL.Comment}/${commentId}`

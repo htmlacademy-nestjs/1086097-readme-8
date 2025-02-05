@@ -11,6 +11,7 @@ import { SearchPublicationQuery } from './dto/search.query';
 import { JwtAuthGuard } from '@project/guards';
 import { PublicationNotifyService } from './notify/notify.service';
 import { SendNewsletterDto } from '../lib/notify/dto/send-newsletter.dto';
+import { Entity } from '@project/core';
 
 @ApiTags('Publication')
 @Controller('publications')
@@ -60,7 +61,7 @@ export class PublicationController {
     description: 'Not found',
   })
   // @UseGuards(JwtAuthGuard)
-  @Get(':id')
+  @Get('/:id')
   // @UseGuards(ValidateAuthorPipe)
   public async findPublicationById(@Param('id') id: string) {
     const publication = await this.publicationService.findPublicationById(id);
@@ -94,7 +95,7 @@ export class PublicationController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Bad request',
   })
-  @Get('query')
+  @Get('')
   public async getPublications(@Query() query: PublicationQuery) {
     const data = await this.publicationService.getPublications(query);
     const dataWidthDto = {...data, entities: data.entities.map((entity) => fillDto(PublicationRdo, entity))}
