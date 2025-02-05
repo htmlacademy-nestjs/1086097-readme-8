@@ -46,9 +46,7 @@ export class AuthenticationService {
     const userEntity = await new UserEntity(publicUser).setPassword(password);
     await this.userRepository.save(userEntity);
 
-
     await this.notifyService.registerSubscriber({email, name});
-
 
     return userEntity;
   }
@@ -81,7 +79,9 @@ export class AuthenticationService {
 
   public async getUser(id: string) {
     const existUser = await this.userRepository.findById(id.toString());
-    if (!existUser) {throw new NotFoundException(`User with id ${id} not found`);}
+    if (!existUser) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
     return existUser;
   }
 
@@ -106,7 +106,9 @@ export class AuthenticationService {
 
   public async getUserByEmail(email: string) {
     const existUser = await this.userRepository.findByEmail(email);
-    if (!existUser) {throw new NotFoundException(`User with email ${email} not found`);}
+    if (!existUser) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
     return existUser;
   }
 
@@ -117,12 +119,15 @@ export class AuthenticationService {
   }
 
   public async subscribeUser(userId: string, subscriberId: string) {
-    console.log();
     const user = await this.userRepository.findById(userId);
     const subscriberUser = await this.userRepository.findById(subscriberId);
 
-    if (!user) { throw new NotFoundException(`User with id ${userId} not found`);}
-    if (user.subscriptions.includes(subscriberId)) {throw new ConflictException(`You are already subscribed to this author`);}
+    if (!user) {
+      throw new NotFoundException(`User with id ${userId} not found`);
+    }
+    if (user.subscriptions.includes(subscriberId)) {
+      throw new ConflictException(`You are already subscribed to this author`);
+    }
 
     user.subscriptions.push(subscriberId);
     const userEntity = new UserEntity(user);
@@ -138,8 +143,12 @@ export class AuthenticationService {
     const user = await this.userRepository.findById(userId);
     const subscriberUser = await this.userRepository.findById(subscriberId);
 
-    if (!user) { throw new NotFoundException(`User with id ${userId} not found`);}
-    if (!user.subscriptions.includes(subscriberId)) {throw new ConflictException(`You are not subscribed to this author`);}
+    if (!user) {
+      throw new NotFoundException(`User with id ${userId} not found`);
+    }
+    if (!user.subscriptions.includes(subscriberId)) {
+      throw new ConflictException(`You are not subscribed to this author`);
+    }
 
     user.subscriptions = [...user.subscriptions.filter((id) => id !== subscriberId)];
     const userEntity = new UserEntity(user);

@@ -56,7 +56,6 @@ export class PublicationRepository extends PublicationFactory {
     });
 
     if (!publication) {
-      // return null;
       throw new NotFoundException(`Publication with id ${publicationId} not found.`);
     }
     return this.create(publication);
@@ -74,7 +73,9 @@ export class PublicationRepository extends PublicationFactory {
 
   public async updatePublication(publicationId: string, dto: UpdatePublicationDto): Promise<PublicationEntity> {
     const publication = await this.findPublicationById(publicationId);
-    if (!publication) {throw new NotFoundException(`Publication not found`);}
+    if (!publication) {
+      throw new NotFoundException(`Publication not found`);
+    }
     const pojo = this.create({...publication, ...dto}).toPOJO();
 
     const updatedPublication = await this.client.publication.update({
@@ -119,8 +120,6 @@ export class PublicationRepository extends PublicationFactory {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.PublicationWhereInput = {};
-    // или сортировка по одному из ключей
-    // const orderBy: Prisma.PublicationOrderByWithRelationInput = {};
     const orderBy: Prisma.PublicationOrderByWithRelationInput[] = [];
     const sortingType = query?.sortingType ? query.sortingType : DEFAULT_SORTING_TYPE;
     const sortDirection = query?.sortingDirection ? query.sortingDirection : DEFAULT_SORTING_DIRECTION;
