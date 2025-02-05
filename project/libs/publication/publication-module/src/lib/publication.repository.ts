@@ -7,6 +7,7 @@ import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationFactory } from './publication.factory';
 import { PublicationQuery } from './publicationQuery';
+import { SearchPublicationQuery } from './dto/search.query';
 import { getFormatedTags } from '@project/helpers';
 import { SortDirection, PublicationStatus, Publication, PaginationResult } from '@project/core';
 
@@ -111,8 +112,6 @@ export class PublicationRepository extends PublicationFactory {
   public async getPublicationsByUserId(userId: string):Promise<number> {
     const where: Prisma.PublicationWhereInput = {};
     where.userId = userId;
-    console.log(userId);
-    console.log(where);
     return await this.getPublicationsCount(where);
   }
 
@@ -171,14 +170,20 @@ export class PublicationRepository extends PublicationFactory {
     };
   }
 
-  public async findPublicationsByTitle(title: string): Promise<PublicationEntity[]> {
+  public async findPublicationsByTitle(query: SearchPublicationQuery): Promise<PublicationEntity[]> {
+    const where: Prisma.PublicationWhereInput = {};
+    where.publicStatus = 'Published';
+
+    const titleWords = query.title.split(' ');
+    where.OR = titleWords.map(word => ({
+      OR: [
+        { titleText: { contains: word, mode: 'insensitive' } },
+        { titleVideo: { contains: word, mode: 'insensitive' } }
+      ]
+    }));
+
     const publications = await this.client.publication.findMany({
-      where: {
-        OR: [
-          { titleText: title },
-          { titleVideo: title },
-        ],
-      },
+      where,
       include: {
         comments: true,
         likes: true,
@@ -186,7 +191,7 @@ export class PublicationRepository extends PublicationFactory {
     });
 
     if (!publications || publications.length === 0) {
-      throw new NotFoundException(`Publication with title ${title} not found.`);
+      throw new NotFoundException(`Publication with this title not found.`);
     }
     return publications.map((publication) => this.create(publication));
   }
@@ -198,8 +203,7 @@ export class PublicationRepository extends PublicationFactory {
     const draftsPublications = await this.client.publication.findMany({
       where,
     });
-
-    if (!draftsPublications || draftsPublications.length === 0) {
+    if (draftsPublications.length === 0) {
       throw new NotFoundException(`Drafts Publication not found.`);
     }
 

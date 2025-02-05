@@ -45,7 +45,11 @@ export class AuthenticationService {
     }
     const userEntity = await new UserEntity(publicUser).setPassword(password);
     await this.userRepository.save(userEntity);
+
+
     await this.notifyService.registerSubscriber({email, name});
+
+
     return userEntity;
   }
 

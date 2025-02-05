@@ -33,8 +33,8 @@ export class UserRdo {
   @ApiProperty({
     description: 'User registration date',
   })
-  @Expose({ name: 'createdAt' })
-  public createAt!: string;
+  @Expose({ name: 'createAt' })
+  public createdAt: string;
 
   @ApiProperty({
     description: 'User posts amount',

@@ -14,14 +14,9 @@ export class EmailSubscriberService {
   public async addSubscriber(subscriber: CreateSubscriberDto): Promise<EmailSubscriberEntity> {
     const { email } = subscriber;
     const existsSubscriber = await this.emailSubscriberRepository.findByEmail(email);
-
-    if (existsSubscriber) {
-      return existsSubscriber;
-    }
-
+    if (existsSubscriber) {return existsSubscriber;}
     const emailSubscriber = new EmailSubscriberEntity(subscriber);
     await this.emailSubscriberRepository.save(emailSubscriber);
-
     return emailSubscriber;
   }
 
@@ -33,11 +28,9 @@ export class EmailSubscriberService {
     const subscriberData = {
       ...subscriber,
       dateLastNotify: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
     const updatedSubscriber = new EmailSubscriberEntity(subscriberData);
-
-    return this.emailSubscriberRepository.update(
-      updatedSubscriber
-    );
+    return this.emailSubscriberRepository.update(updatedSubscriber);
   }
 }

@@ -4,3 +4,4 @@ export { LikeController } from "./lib/like.controller";
 export { LikeModule } from "./lib/like.module";
 export { LikeRepository } from "./lib/like.repository";
 export { LikeService } from "./lib/like.service";
+export { LikeDto } from "./lib/dto/like.dto";

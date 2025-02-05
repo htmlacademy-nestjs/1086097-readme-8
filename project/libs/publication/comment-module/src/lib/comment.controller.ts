@@ -24,7 +24,7 @@ export class CommentController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Bad request',
   })
-  @Post(':publicationId')
+  @Post('/:publicationId')
   public async createComment(@Param('publicationId') publicationId: string, @Body() dto: CreateCommentDto) {
     const comment = await this.commentService.createComment(publicationId, dto);
     return fillDto(CommentRdo, comment.toPOJO());
@@ -38,7 +38,7 @@ export class CommentController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  @Delete(':id')
+  @Delete('/:id')
   public async deleteCommentById(@Param('id') id: string) {
     await this.commentService.deleteCommentById(id);
   }
