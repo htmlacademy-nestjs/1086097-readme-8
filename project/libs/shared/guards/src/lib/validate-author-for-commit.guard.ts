@@ -12,10 +12,16 @@ export class ValidateAuthorForCommitGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const {id} = request.params;
     const { data: commit } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Comment}/${id}`,);
-    if (!commit) {throw new NotFoundException(`Commit not found.`);}
+    if (!commit) {
+      throw new NotFoundException(`Commit not found.`);
+    }
     const { data: user } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.User}/check`, {}, {headers: {Authorization: request.headers['authorization'],},});
-    if (!user) {throw new NotFoundException(`User not found.`);}
-    if (commit.userId !== user.sub) {throw new ConflictException(`Chto zhe ty zhopa delaesh`);}
+    if (!user) {
+      throw new NotFoundException(`User not found.`);
+    }
+    if (commit.userId !== user.sub) {
+      throw new ConflictException(`Chto zhe ty zhopa delaesh`);
+    }
     return true;
   }
 }

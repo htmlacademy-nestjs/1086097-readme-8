@@ -18,7 +18,9 @@ export class UserNotifyService {
     const exchange = this.rabbitConfigOptions.exchange;
     const routingKey = RabbitRouting.AddSubscriber;
 
-    if (!exchange) {throw new Error('Exchange key (config env) is undefined');}
+    if (!exchange) {
+      throw new Error('Exchange key (config env) is undefined');
+    }
 
     return await this.rabbitClient.publish(
         exchange,

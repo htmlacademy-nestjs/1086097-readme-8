@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { PublicationStatus, PublicationType } from '@prisma/client';
 
 const FIRST_COMMENT_UUID = '39614113-7ad5-45b6-8093-06455437e1e2';
 const SECOND_COMMENT_UUID = 'efd775e2-df55-4e0e-a308-58249f5ea202';
@@ -39,8 +40,8 @@ function getPublications() {
       video: 'https://youtu.be/n_Cu8z4re4U',
       isRepost: false,
       tags: ['sing', 'movie'],
-      publicType: 'video',
-      publicStatus: 'published',
+      publicType: PublicationType.Video,
+      publicStatus: PublicationStatus.Published,
       commentsCount: INIT_COUNT_VALUE,
       likesCount: INIT_COUNT_VALUE,
 
@@ -64,8 +65,8 @@ function getPublications() {
       text: 'Ты где июль, ты где июль Какая даль, какая сказка, Не занесет февраль, не занесет февраль, Твой буйный зной и бешеные краски.',
       tags: ['julay'],
       isRepost: false,
-      publicType: 'text',
-      publicStatus: 'draft',
+      publicType: PublicationType.Text,
+      publicStatus: PublicationStatus.Draft,
       commentsCount: INIT_COUNT_VALUE,
       likesCount: INIT_COUNT_VALUE,
 
@@ -86,33 +87,6 @@ function getPublications() {
 }
 
 async function seedDb(prismaClient: PrismaClient) {
-
-  // const mockLikes = getLikes();
-  // for (const like of mockLikes) {
-  //   await prismaClient.like.upsert({
-  //     where: { id: like.id },
-  //     update: {},
-  //     create: {
-  //       id: like.id,
-  //       publicationId: like.publicationId,
-  //       userId: like.userId,
-  //     }
-  //   });
-  // }
-
-  // const mockComments = getComments();
-  // for (const comment of mockComments) {
-  //   await prismaClient.comment.upsert({
-  //     where: { id: comment.id },
-  //     update: {},
-  //     create: {
-  //       id: comment.id,
-  //       publicationId: comment.publicationId,
-  //       userId: comment.userId,
-  //       text: comment.text
-  //     }
-  //   });
-  // }
 
   const mockPublications = getPublications();
   for (const publication of mockPublications) {

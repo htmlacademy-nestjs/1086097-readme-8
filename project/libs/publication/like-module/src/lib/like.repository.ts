@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
-import { BaseMemoryRepository } from '@project/data-access';
 import { LikeEntity } from './like.entity';
 import { Like } from './like.interface';
 import { LikeDto } from './dto/like.dto';
@@ -13,7 +12,9 @@ export class LikeRepository extends LikeFactory {
   ) {super()}
   public async createLike(dto: LikeDto): Promise<LikeEntity> {
     const existLike = await this.findByUserId(dto.publicationId, dto.userId);
-    if (existLike) { throw new ConflictException(`Like already exists`);}
+    if (existLike) {
+      throw new ConflictException(`Like already exists`);
+    }
 
     const newLike = await this.client.like.create({
       data: {
@@ -35,7 +36,9 @@ export class LikeRepository extends LikeFactory {
   public async deleteLikesByPublicationId(publicationId: string, userId: string): Promise<void> {
     const existLike = await this.findByUserId(publicationId, userId);
 
-    if (!existLike) { throw new NotFoundException(`You dont Liked it publication`); }
+    if (!existLike) {
+      throw new NotFoundException(`You dont Liked it publication`);
+    }
 
     await this.client.like.delete({
       where: { id: existLike.id, },
