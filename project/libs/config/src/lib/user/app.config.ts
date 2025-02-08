@@ -33,7 +33,6 @@ function getConfig(): AppConfig {
   };
 
   validateConfig(config);
-  console.log(config.port);
   return config;
 }
 

@@ -23,7 +23,7 @@ export class PublicUserController {
 
   @Get(':email')
   public async show(@Param('email') email: string) {
-    let user = await this.userServiceRepository.findByEmail(email)
+    const user = await this.userServiceRepository.findByEmail(email)
     return user && fillDto(UserRdo, user.toPOJO());
   }
 }

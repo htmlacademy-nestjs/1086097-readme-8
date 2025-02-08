@@ -28,15 +28,19 @@ export class MailService {
     })
   }
 
-  public async sendNewsletter(email: string | string[], publicationInfo: Publication) {
-    await this.mailerService.sendMail({
-      from: this.notifyConfig.mail.from,
-      to: email,
-      subject: NEWS_LETTER,
-      template: './newsletter',
-      context: {
-        publics: publicationInfo,
-      },
-    });
+  public async sendNewsletter(email: string, publications: Publication[]) {
+    try {
+      await this.mailerService.sendMail({
+        from: this.notifyConfig.mail.from,
+        to: email,
+        subject: NEWS_LETTER,
+        template: './newsletter',
+        context: {
+          publications,
+        },
+      });
+    } catch (error) {
+      console.error(`Error sending email:, ${error}`);
+    }
   }
 }

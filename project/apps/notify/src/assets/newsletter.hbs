@@ -1,0 +1,35 @@
+<h1>Подборка новых публикаций</h1>
+<h2>Возможно вы пропустили:</h2>
+
+<ul>
+  {{#each publications}}
+  <li>
+    {{#if title}}
+    <p> <b>Название:</b> {{title}}</p>
+    {{/if}}
+    {{#if announcement}}
+    <p> <b>Анонс публикации:</b> {{announcement}}</p>
+    {{/if}}
+    {{#if author}}
+    <p> <b>Автор цитаты:</b> {{author}}</p>
+    {{/if}}
+
+    {{#if text}}
+    <p> <b>Текст:</b> {{text}}</p>
+    {{/if}}
+
+    {{#if link}}
+    <p> <b>Ссылка:</b> {{link}}</p>
+    {{/if}}
+
+    {{#if photo}}
+    <p> <b>Фото:</b> {{photo}}</p>
+    {{/if}}
+
+    {{#if description}}
+    <p> <b>Описание:</b> {{description}}</p>
+    {{/if}}
+    <p> <b>Дата публикации:</b> {{createAt}}</p>
+    <p> <b>Автор публикации:</b> {{userId}}</p>
+    {{/each}}
+</ul>

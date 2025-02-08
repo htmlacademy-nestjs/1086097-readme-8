@@ -96,7 +96,6 @@ export class UsersController {
   public async show(@Param('id') id: MongoIdValidationPipe,  @Req() req: Request,) {
     const { data: user } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.User}/user/${id}`);
     const { data } = await this.httpService.axiosRef.get(`${ApplicationServiceURL.Publication}/user/${id}`);
-    console.log(data);
     return { ...user, publicationsCount: data };
   }
 
@@ -108,8 +107,6 @@ export class UsersController {
   @Post('files/upload/avatar')
   @UseInterceptors(FileInterceptor('avatar'))
   public async uploadAvatar(@Req() req: Request, @UploadedFile(FileUploadPipe) file: Express.Multer.File) {
-    console.log(file);
-
     const { data: avatar } = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.Files}/upload/avatar`,
       file,

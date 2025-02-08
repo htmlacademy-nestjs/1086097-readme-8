@@ -204,9 +204,9 @@ export class PublicationController {
     description: 'Publications sent',
   })
   @UseGuards(CheckAuthGuard)
-  @Get('publications/send-news/:id/:email')
+  @Post('publications/send-news/:id/:email')
   public async sendNews(@Param('id') id: string, @Param('email') email: string, @Req() req: Request) {
-    await this.httpService.axiosRef.get(
+    await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.Publication}/send-news/:id/:email`,
       { params: { id, email },
         headers: {Authorization: req.headers['authorization'],},
@@ -308,7 +308,47 @@ export class PublicationController {
   }
 
 
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'List of publications is showing',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'There are no posts that can be loaded',
+  })
+  @Get('/publications/ribbon')
+  public async ribbon(@Query() query: PublicationQuery) {
+    const { data: user } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.User}/user/${query.userId}`
+    );
 
+    let ribbon = [];
+    let totalItems = 0;
+    const { data: myPublications } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.Publication}`,
+      { params: query }
+    );
+    ribbon = [...myPublications.entities];
+    totalItems = myPublications.totalItems || 0;
 
+    const subscriptionPromises = user.subscriptions.map(async (subscriptionId: string) => {
+      query.userId = subscriptionId;
+      const { data } = await this.httpService.axiosRef.get(
+        `${ApplicationServiceURL.Publication}`,
+        { params: query }
+      );
 
+      if (Array.isArray(data.entities)) {
+        ribbon.push(...data.entities);
+      }
+      return data.totalItems || 0;
+    });
+
+    const subscriptionResults = await Promise.all(subscriptionPromises);
+    totalItems += subscriptionResults.reduce((acc, curr) => acc + curr, 0);
+
+    return {
+      ...myPublications, entities: ribbon, totalItems
+    };
+  }
 }

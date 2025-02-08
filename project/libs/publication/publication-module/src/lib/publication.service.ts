@@ -4,8 +4,10 @@ import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationQuery } from './publicationQuery';
 import { PublicationEntity } from './publication.entity';
+import { Publication } from '@project/core';
 import { SearchPublicationQuery } from './dto/search.query';
 import { PublicationNotifyService } from './notify/notify.service';
+import { SendNewsletterDto } from './notify/dto/send-newsletter.dto';
 
 @Injectable()
 export class PublicationService {
@@ -16,14 +18,16 @@ export class PublicationService {
 
     public async createPublication(dto: CreatePublicationDto) {
       const publication = await this.publicationRepository.createPublication(dto);
-
-      await this.publicationNotifyService.sendNewsletter({
-        email: 'ya@dont_now.ru',
-        publication,
-        id: publication.userId,
-      });
-
       return publication;
+    }
+
+    public async sendNewsletter(userId: string, email: string) {
+      const publications = await this.publicationRepository.getAllPublishedPublication();
+      return await this.publicationNotifyService.sendNewsletter({
+        email,
+        publications,
+        id: userId,
+      });
     }
 
     public async deletePublication(publicationId: string) {
@@ -46,8 +50,11 @@ export class PublicationService {
     }
 
     public async getPublications(query: PublicationQuery) {
-      const publications = await this.publicationRepository.find(query);
-      return publications;
+      const publicationsWithPagination = await this.publicationRepository.find(query);
+      const result = {
+        ...publicationsWithPagination, entities: publicationsWithPagination.entities.map(entity => entity.toPOJO())
+      }
+      return result;
     }
 
     public async getPublicationsByTitle(query: SearchPublicationQuery) {
@@ -77,5 +84,10 @@ export class PublicationService {
       repostingPublication.likesCount = 0;
 
       return await this.publicationRepository.createPublication(repostingPublication);
+    }
+
+    public async getAllPublishedPublication(): Promise<Publication[]> {
+      const publications = await this.publicationRepository.getAllPublishedPublication();
+      return publications.map(publication => publication.toPOJO());
     }
 }

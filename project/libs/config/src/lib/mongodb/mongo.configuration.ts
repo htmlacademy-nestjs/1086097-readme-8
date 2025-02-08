@@ -1,5 +1,5 @@
 import { IsNumber, IsOptional, IsString, Max, Min, validateOrReject } from 'class-validator';
-import { MIN_PORT, MAX_PORT, DEFAULT_MONGO_PORT, EnvValidationMessage } from '@project/core';
+import { MongoConfigurationPorts, EnvValidationMessage } from '@project/core';
 
 export class MongoConfiguration {
   @IsString({ message: EnvValidationMessage.DBNameRequired })
@@ -9,10 +9,10 @@ export class MongoConfiguration {
   public host!: string;
 
   @IsNumber({}, { message: EnvValidationMessage.DBPortRequired })
-  @Min(MIN_PORT)
-  @Max(MAX_PORT)
+  @Min(MongoConfigurationPorts.MIN_PORT)
+  @Max(MongoConfigurationPorts.MAX_PORT)
   @IsOptional()
-  public port: number = DEFAULT_MONGO_PORT;
+  public port: number = MongoConfigurationPorts.DEFAULT_MONGO_PORT;
 
   @IsString({ message: EnvValidationMessage.DBUserRequired })
   public user!: string;
