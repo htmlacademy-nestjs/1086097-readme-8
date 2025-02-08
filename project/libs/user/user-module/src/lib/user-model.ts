@@ -1,4 +1,4 @@
-import { Document, Schema as SchemaM } from 'mongoose';
+import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AuthUser } from '@project/core';
 

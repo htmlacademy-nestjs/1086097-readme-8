@@ -20,6 +20,13 @@ export class CommentService {
   }
 
   public async findCommentsByPublicationId(publicationId: string, query: CommentQuery) {
-    return await this.commentRepository.findCommentsByPublicationId(publicationId, query);
+    const commentsWithPagination = await this.commentRepository.findCommentsByPublicationId(publicationId,  query);
+
+    const result = {
+      ...commentsWithPagination,
+      entities: commentsWithPagination.entities.map((entity) => entity.toPOJO()),
+    };
+
+    return result;
   }
 }

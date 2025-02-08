@@ -23,7 +23,6 @@ const ALLOWED_MIMETYPES = ['jpeg', 'jpg', 'png'];
 export class FileUploadPipe implements PipeTransform {
   transform(value: Express.Multer.File) {
     try {
-      console.log(value, 'from FileUploadPipe');
       const { fieldname, size, mimetype } = value;
       const fileExtension = extension(mimetype);
 

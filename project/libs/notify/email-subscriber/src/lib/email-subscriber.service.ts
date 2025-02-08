@@ -28,9 +28,8 @@ export class EmailSubscriberService {
     const subscriberData = {
       ...subscriber,
       dateLastNotify: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     };
-    const updatedSubscriber = new EmailSubscriberEntity(subscriberData);
+    const updatedSubscriber = new EmailSubscriberEntity({...subscriberData, id: subscriber.id});
     return this.emailSubscriberRepository.update(updatedSubscriber);
   }
 }

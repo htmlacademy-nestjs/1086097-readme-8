@@ -24,7 +24,10 @@ export class EmailSubscriberModel extends Document implements Subscriber {
 
 export const EmailSubscriberSchema = SchemaFactory.createForClass(EmailSubscriberModel);
 
-EmailSubscriberSchema.virtual('id').get(function() {
-  //@ts-ignore
-  return this._id.toString();
+EmailSubscriberSchema.pre<EmailSubscriberModel>('save', function (next) {
+  if (!this.id && this._id) {
+    // @ts-ignore
+    this.id = this._id.toString();
+  }
+  next();
 });

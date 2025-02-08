@@ -13,7 +13,7 @@ export class NewsletterDto {
   public email!: string;
 
   @IsArray()
-  public publication!: Publication;
+  public publications!: Publication[];
 
   @ApiProperty({
     description: 'Newsletter ID',

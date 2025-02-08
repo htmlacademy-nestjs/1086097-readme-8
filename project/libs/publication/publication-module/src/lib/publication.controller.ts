@@ -1,5 +1,5 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UseGuards, Controller, Body, Post, Get, Param, Patch, Delete, Query, HttpStatus, UsePipes } from '@nestjs/common';
+import { UseGuards, Controller, Body, Post, Get, Param, Patch, Delete, Query, HttpStatus } from '@nestjs/common';
 import { PublicationService } from './publication.service';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { fillDto } from '@project/helpers';
@@ -11,7 +11,7 @@ import { SearchPublicationQuery } from './dto/search.query';
 import { JwtAuthGuard } from '@project/guards';
 import { PublicationNotifyService } from './notify/notify.service';
 import { SendNewsletterDto } from '../lib/notify/dto/send-newsletter.dto';
-import { Entity } from '@project/core';
+import { PublicationPaginationRdo } from './rdo/publications-with-pagination.rdo';
 
 @ApiTags('Publication')
 @Controller('publications')
@@ -97,9 +97,8 @@ export class PublicationController {
   })
   @Get('')
   public async getPublications(@Query() query: PublicationQuery) {
-    const data = await this.publicationService.getPublications(query);
-    const dataWidthDto = {...data, entities: data.entities.map((entity) => fillDto(PublicationRdo, entity))}
-    return dataWidthDto;
+    const publications = await this.publicationService.getPublications(query);
+    return fillDto(PublicationPaginationRdo, publications);
   }
 
 
@@ -190,8 +189,8 @@ export class PublicationController {
     status: HttpStatus.OK,
     description: 'Publications sent',
   })
-  @Get('send-news')
-  public async sendNews(@Body() dto: SendNewsletterDto) {
-    return this.publicationNotifyService.sendNewsletter(dto);
+  @Post('/send-news/:userId/:email')
+  public async sendNews(@Param('userId') userId: string, @Param('email') email: string) {
+    return await this.publicationService.sendNewsletter(userId, email);
   }
 }

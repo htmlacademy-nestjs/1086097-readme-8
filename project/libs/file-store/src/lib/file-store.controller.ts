@@ -25,7 +25,6 @@ export class FileStoreController {
   @Post('upload/avatar')
   @UseInterceptors(FileInterceptor('avatar'))
   public async uploadAvatar(@UploadedFile(FileUploadPipe) file: Express.Multer.File) {
-    console.log(file, 'from filestore controller');
     const fileEntity = await this.fileStoreService.saveFile(file, 'avatar');
     return fillDto(StoredFileRdo, fileEntity.toPOJO());
   }

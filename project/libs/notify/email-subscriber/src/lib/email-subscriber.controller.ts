@@ -7,6 +7,7 @@ import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { NewsletterDto } from './dto/newsletter.dto';
 import { RabbitRouting } from '@project/core';
 import { MailService } from './mail.service';
+import { getNewPublications } from '@project/helpers';
 
 @ApiTags('notify')
 @Controller()
@@ -32,11 +33,16 @@ export class EmailSubscriberController {
     queue: 'readme.notify.newsletter',
   })
   public async sendNewsletter(dto: NewsletterDto) {
-    const { email, publication } = dto;
-    const recipient = await this.subscriberService.getSubscriber(email);
-    if (recipient && publication) {
-      await this.mailService.sendNewsletter(recipient.email, publication);
-      await this.subscriberService.updateDateSent(recipient);
+    const { email, publications } = dto;
+    const subscriber = await this.subscriberService.getSubscriber(email);
+
+    if (subscriber && publications.length > 0) {
+      const newPublications = getNewPublications(dto, subscriber);
+
+      if (newPublications.length > 0) {
+        await this.mailService.sendNewsletter(subscriber.email, newPublications);
+        await this.subscriberService.updateDateSent(subscriber);
+      }
     }
   }
 }

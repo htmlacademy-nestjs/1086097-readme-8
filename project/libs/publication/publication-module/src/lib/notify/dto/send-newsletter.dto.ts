@@ -2,6 +2,6 @@ import { Publication } from '@project/core';
 
 export class SendNewsletterDto {
   public id!: string;
-  public email!: string | string[];
-  public publication!: Publication;
+  public email!: string;
+  public publications!: Publication[];
 }

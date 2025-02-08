@@ -15,8 +15,13 @@ export class PublicationNotifyService {
   ) {}
 
   public async sendNewsletter(dto: SendNewsletterDto) {
-    return this.rabbitOptions.exchange && this.rabbitClient.publish(
-      this.rabbitOptions.exchange,
+    const exchange = this.rabbitOptions.exchange;
+    if (!exchange) {
+      throw new Error('Exchange key (config env) is undefined');
+    }
+
+    return await this.rabbitClient.publish(
+      exchange,
       RabbitRouting.SendNewsletter,
       { ...dto }
     );

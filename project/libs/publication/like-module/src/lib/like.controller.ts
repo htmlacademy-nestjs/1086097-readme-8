@@ -24,7 +24,6 @@ export class LikeController {
   })
   @Post('')
   public async createComment(@Query() query: LikeDto) {
-    console.log(query);
     const like = await this.likeService.createLike(query);
     return fillDto(LikeRdo, like.toPOJO());
   }

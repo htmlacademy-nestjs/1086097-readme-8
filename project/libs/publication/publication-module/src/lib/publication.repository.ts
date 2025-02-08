@@ -222,8 +222,8 @@ export class PublicationRepository extends PublicationFactory {
     }
   }
 
-  public async getAllPublishedPublication(): Promise<Publication[]> {
-    return await this.client.publication.findMany({
+  public async getAllPublishedPublication(): Promise<PublicationEntity[]> {
+    const publications = await this.client.publication.findMany({
       where: {
         publicStatus: 'Published',
       },
@@ -232,5 +232,7 @@ export class PublicationRepository extends PublicationFactory {
         likes: true,
       },
     });
+
+    return publications.map((publication) => this.create(publication));
   }
 }
